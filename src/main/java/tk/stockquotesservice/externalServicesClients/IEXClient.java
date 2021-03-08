@@ -11,9 +11,9 @@ import tk.stockquotesservice.data.Quote;
  * * Created on 12.02.2021.
  */
 
-@FeignClient(name = "IEXClient", url = "${iex.apiURI}")
+@FeignClient(name = "IEXClient", url = "${io.iexcloud.apiURI}")
 public interface IEXClient {
-  @GetMapping("${iex.GetQuote}")
+  @GetMapping("${io.iexcloud.quote}")
   Quote getQuotesByTicker(@PathVariable(value = "symbol") String symbol,
 						  @RequestParam (value = "token") String token);
 }

@@ -1,11 +1,13 @@
 package tk.stockquotesservice.controllers;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,9 +21,13 @@ import tk.stockquotesservice.externalServicesClients.IEXClient;
 
 @Controller
 public class StockQuotesController {
+
   private IEXClient client;
-  @Value("${iex.appID}")
+  @Value("${io.iexcloud.appID}")
   private String token;
+
+  @Autowired
+  LocalSessionFactoryBean factoryBean;
 
   @Autowired
   public void setClient(IEXClient client) {

@@ -1,0 +1,33 @@
+{
+  "properties": [
+    {
+      "name": "io.iexcloud.appID",
+      "type": "java.lang.String",
+      "description": "IEX appID."
+    },
+    {
+      "name": "io.iexcloud.apiURI",
+      "type": "java.lang.String",
+      "description": "IEX apiURI."
+    },
+    {
+      "name": "io.iexcloud.quote",
+      "type": "java.lang.String",
+      "description": "IEX GET quote method."
+    },
+    {
+      "name": "tk.stockquotesservice.url",
+      "type": "java.lang.String",
+      "description": "URL to database."
+    },
+    {
+      "name": "tk.stockquotesservice.username",
+      "type": "java.lang.String",
+      "description": "Database username."
+    },
+    {
+      "name": "tk.stockquotesservice.password",
+      "type": "java.lang.String",
+      "description": "Database password."
+    }
+  ] }
