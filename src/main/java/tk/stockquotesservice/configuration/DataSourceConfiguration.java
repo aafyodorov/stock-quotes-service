@@ -29,13 +29,13 @@ public class DataSourceConfiguration {
 
   @Value("${tk.stockquotesservice.url}")
   private String dbURI;
+
   @Bean
   public LocalSessionFactoryBean sessionFactory() {
 	LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 	sessionFactory.setDataSource(dataSource());
-	sessionFactory.setPackagesToScan("tk.stockQuotesService.entity");
+	sessionFactory.setPackagesToScan("tk.stockquotesservice.entity");
 	sessionFactory.setHibernateProperties(hibernateProperties());
-
 	return sessionFactory;
   }
 

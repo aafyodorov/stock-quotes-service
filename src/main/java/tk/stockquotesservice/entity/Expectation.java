@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @author Andrey Fyodorov
@@ -12,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "expectation")
-public class Expectation {
+public class Expectation implements Serializable {
 
   @Id
   @Column(name = "user_id")
@@ -22,7 +23,7 @@ public class Expectation {
   @Column(name = "symbol_id")
   private int symbolId;
 
-  @Column(name = "expected_price")
+  @Column(name = "exp_price")
   private double expectedPrice;
 
   public double getExpectedPrice() {

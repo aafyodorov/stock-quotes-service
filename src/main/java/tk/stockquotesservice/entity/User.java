@@ -9,7 +9,7 @@ import java.util.Map;
  */
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
   @Id
@@ -30,10 +30,11 @@ public class User {
   private Map<Symbol, Double> symbols;
 
   public User() {
+	maxSubscribes = 3;
   }
 
   public User(int id) {
-	maxSubscribes = 3;
+	this();
 	this.id = id;
   }
 
@@ -66,6 +67,10 @@ public class User {
   }
 
   public void setSymbols(Map<Symbol, Double> symbols) {
+	if (curSubscribes == maxSubscribes) {
+	  throw new NumberFormatException(String.format("Maximum number of symbols is %d.\n", maxSubscribes));
+	}
 	this.symbols = symbols;
   }
+
 }
