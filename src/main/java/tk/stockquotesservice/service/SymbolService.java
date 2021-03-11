@@ -10,6 +10,7 @@ import tk.stockquotesservice.entity.Symbol;
 public interface SymbolService {
 
   void add(Symbol symbol);
+  void addCollection(Iterable<Symbol> collection);
   Symbol getById(int id);
   void update(Symbol symbol);
   void delete(int id);

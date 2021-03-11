@@ -29,6 +29,14 @@ public class SymbolServiceImpl implements SymbolService {
 
   @Override
   @Transactional
+  public void addCollection(Iterable<Symbol> collection) {
+    for (Symbol symbol : collection) {
+      symbolDAO.add(symbol);
+    }
+  }
+
+  @Override
+  @Transactional
   public Symbol getById(int id) {
     return symbolDAO.getById(id);
   }
