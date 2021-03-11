@@ -1,8 +1,14 @@
+create table users (
+                       user_id         bigint primary key ,
+                       cur_subscribes  int,
+                       max_subscribes  int
+);
+
 create table symbol(
                        symbol_id       serial,
                        symbol          varchar(10),
                        exchange        varchar(10),
-                       comp_name       varchar(64),
+                       comp_name       varchar(128),
                        type            varchar(10),
                        gen_date        date,
                        iex_id          varchar(32),

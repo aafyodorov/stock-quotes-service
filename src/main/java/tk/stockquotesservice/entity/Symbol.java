@@ -1,6 +1,7 @@
 package tk.stockquotesservice.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,23 +19,30 @@ public class Symbol implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
+  @Size(max = 10)
   private String symbol;
 
+  @Size(max = 10)
   private String exchange;
 
   @Column (name = "comp_name")
+  @Size(max = 128)
   private String companyName;
 
   @Column (name = "gen_date")
   private Date generationDate;
 
+  @Size(max = 10)
   private String type;
 
   @Column (name = "iex_id")
+  @Size(max = 32)
   private String iexId;
 
+  @Size(max = 10)
   private String region;
 
+  @Size(max = 3)
   private String currency;
 
   @Column (name = "is_enabled")
