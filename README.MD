@@ -10,10 +10,12 @@ watch list, and when a certain value is reached, send a notification~~ (_**not i
 
 #### Implemented:
 
-#### Not implemented:
-* `GET /qoute` - Get quote by a ticker. <br>
+* `GET /quote` - Get quote by a ticker. <br>
   Required parameter:
-  * `symbol` - ticker
+    * `symbol` - ticker
+
+#### Not implemented:
+
 * `GET /add` - Add a quote to watch list. <br>
   Required parameters:
     * `user_id` - user's id
