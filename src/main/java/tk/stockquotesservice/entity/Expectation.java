@@ -1,36 +1,42 @@
 package tk.stockquotesservice.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  * @author Andrey Fyodorov
  * Created on 09.03.2021.
  */
 
-@Entity
-@Table(name = "expectation")
-public class Expectation implements Serializable {
+@Embeddable
+public class Expectation {
 
-  @Id
-  @Column(name = "user_id")
-  private int userId;
+  @Column(name="exp_price")
+  double z;
 
-  @Id
-  @Column(name = "symbol_id")
-  private int symbolId;
+  @Column(name="exchange")
+  String exchange;
 
-  @Column(name = "exp_price")
-  private double expectedPrice;
-
-  public double getExpectedPrice() {
-	return expectedPrice;
+  public Expectation() {
   }
 
-  public void setExpectedPrice(double expectedPrice) {
-	this.expectedPrice = expectedPrice;
+  public Expectation(double z, String exchange) {
+    this.z = z;
+    this.exchange = exchange;
+  }
+
+  public double getZ() {
+    return z;
+  }
+
+  public void setZ(double z) {
+    this.z = z;
+  }
+
+  public String getExchange() {
+    return exchange;
+  }
+
+  public void setExchange(String exchange) {
+    this.exchange = exchange;
   }
 }

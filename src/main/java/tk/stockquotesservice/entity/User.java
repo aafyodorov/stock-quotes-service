@@ -23,11 +23,10 @@ public class User {
   private int maxSubscribes;
 
   @ElementCollection
-  @CollectionTable(name = "expectation",
-  joinColumns = @JoinColumn(name = "user_id"))
+  @CollectionTable(name = "expectation", joinColumns = @JoinColumn(name = "user_id"))
   @MapKeyJoinColumn(name = "symbol_id")
-  @Column(name = "expected_price")
-  private Map<Symbol, Double> symbols;
+  @Column(name = "exp_price")
+  private Map<Symbol, Expectation> symbols;
 
   public User() {
 	maxSubscribes = 3;
@@ -62,11 +61,11 @@ public class User {
 	this.maxSubscribes = maxSubscribes;
   }
 
-  public Map<Symbol, Double> getSymbols() {
+  public Map<Symbol, Expectation> getSymbols() {
 	return symbols;
   }
 
-  public void setSymbols(Map<Symbol, Double> symbols) {
+  public void setSymbols(Map<Symbol, Expectation> symbols) {
 	if (curSubscribes == maxSubscribes) {
 	  throw new NumberFormatException(String.format("Maximum number of symbols is %d.\n", maxSubscribes));
 	}

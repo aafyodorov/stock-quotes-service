@@ -61,8 +61,6 @@ public class DataSourceConfiguration {
   private Properties hibernateProperties() {
 	Properties hibernateProperties = new Properties();
 	hibernateProperties.setProperty(
-		"spring.jpa.show-sql", "true");
-	hibernateProperties.setProperty(
 		"hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
 
 	return hibernateProperties;

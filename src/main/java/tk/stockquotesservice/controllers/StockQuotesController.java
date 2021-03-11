@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import tk.stockquotesservice.dao.UserDAO;
 import tk.stockquotesservice.dao.UserDAOImpl;
 import tk.stockquotesservice.data.Quote;
+import tk.stockquotesservice.entity.Expectation;
 import tk.stockquotesservice.entity.Symbol;
 import tk.stockquotesservice.entity.User;
 import tk.stockquotesservice.externalServicesClients.IEXClient;
+import tk.stockquotesservice.service.UserService;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -35,7 +37,7 @@ public class StockQuotesController {
   private String token;
 
   @Autowired
-  UserDAO userDAOImpl;
+  UserService userService;
 
   @Autowired
   SessionFactory sessionFactory;
@@ -51,8 +53,8 @@ public class StockQuotesController {
 
     Symbol symbol1 = new Symbol("AAPL", "NASDAQ", "Apple inc",
         new Date(), "type1", "132", "US", "USD", true);
-    Map<Symbol, Double> map = new HashMap<>();
-    map.put(symbol1, 123.56);
+    Map<Symbol, Expectation> map = new HashMap<>();
+    map.put(symbol1, new Expectation(123.56, symbol1.getExchange()));
     User user = new User();
     user.setId(123456);
 //    Session session = sessionFactory.getCurrentSession();
@@ -60,7 +62,7 @@ public class StockQuotesController {
 //    session.beginTransaction();
 //    session.save(user);
 //    session.getTransaction().commit();
-    userDAOImpl.add(user);
+    userService.add(user);
 
     return null;
 //    Quote quote = client.getQuotesByTicker(symbol, token);
