@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import tk.stockquotesservice.data.Quote;
+import tk.stockquotesservice.entity.Symbol;
 
 /**
  * * @author Andrey Fyodorov
@@ -16,4 +17,7 @@ public interface IEXClient {
   @GetMapping("${io.iexcloud.quote}")
   Quote getQuotesByTicker(@PathVariable(value = "symbol") String symbol,
 						  @RequestParam (value = "token") String token);
+
+  @GetMapping("${io.iexcloud.symbols}")
+  Symbol[] getAllSymbols(@RequestParam (value = "token") String token);
 }

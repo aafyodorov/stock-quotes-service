@@ -1,5 +1,8 @@
 package tk.stockquotesservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -12,6 +15,18 @@ import java.util.Date;
 
 @Entity
 @Table(name = "symbol")
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "symbol",
+    "exchange",
+    "name",
+    "date",
+    "type",
+    "iexId",
+    "region",
+    "currency",
+    "isEnabled",
+})
 public class Symbol implements Serializable {
 
   @Id
@@ -20,32 +35,41 @@ public class Symbol implements Serializable {
   private int id;
 
   @Size(max = 10)
+//  @JsonProperty("symbol")
   private String symbol;
 
   @Size(max = 10)
+//  @JsonProperty("exchange")
   private String exchange;
 
   @Column (name = "comp_name")
   @Size(max = 128)
+//  @JsonProperty("name")
   private String companyName;
 
   @Column (name = "gen_date")
+//  @JsonProperty("date")
   private Date generationDate;
 
   @Size(max = 10)
+//  @JsonProperty("type")
   private String type;
 
   @Column (name = "iex_id")
   @Size(max = 32)
+//  @JsonProperty("iexId")
   private String iexId;
 
   @Size(max = 10)
+//  @JsonProperty("region")
   private String region;
 
   @Size(max = 3)
+//  @JsonProperty("currency")
   private String currency;
 
   @Column (name = "is_enabled")
+//  @JsonProperty("isEnabled")
   private boolean isEnabled;
 
   public Symbol(String symbol, String exchange, String companyName, Date generationDate, String type, String iexId, String region, String currency, boolean isEnabled) {

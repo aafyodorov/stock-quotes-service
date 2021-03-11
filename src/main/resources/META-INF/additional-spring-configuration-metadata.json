@@ -29,5 +29,10 @@
       "name": "tk.stockquotesservice.password",
       "type": "java.lang.String",
       "description": "Database password."
+    },
+    {
+      "name": "io.iexcloud.symbols",
+      "type": "java.lang.String",
+      "description": "This refdata endpoint returns the list of symbols that IEX Cloud supports for intraday price updates."
     }
   ] }
