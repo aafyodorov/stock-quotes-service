@@ -1,6 +1,7 @@
 package tk.stockquotesservice.entity;
 
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -24,9 +25,9 @@ public class User {
 
   @ElementCollection
   @CollectionTable(name = "expectation", joinColumns = @JoinColumn(name = "user_id"))
-  @MapKeyJoinColumn(name = "symbol_id")
+  @MapKeyJoinColumns(value = {@MapKeyJoinColumn (name = "exchange"), @MapKeyJoinColumn (name = "symbol")})
   @Column(name = "exp_price")
-  private Map<Symbol, Expectation> symbols;
+  private Map<Company, Expectation> companies;
 
   public User() {
 	maxSubscribes = 3;
@@ -61,15 +62,22 @@ public class User {
 	this.maxSubscribes = maxSubscribes;
   }
 
-  public Map<Symbol, Expectation> getSymbols() {
-	return symbols;
+  public Map<Company, Expectation> setCompanies() {
+	return companies;
   }
 
-  public void setSymbols(Map<Symbol, Expectation> symbols) {
+  public void setCompanies(Map<Company, Expectation> symbols) {
 	if (curSubscribes == maxSubscribes) {
 	  throw new NumberFormatException(String.format("Maximum number of symbols is %d.\n", maxSubscribes));
 	}
-	this.symbols = symbols;
+	this.companies = symbols;
+  }
+
+  public void addStockToWatchList(Company company, double expPrice) {
+    if (companies == null) {
+      companies = new HashMap<>();
+	}
+    companies.put(company, new Expectation(expPrice));
   }
 
 }

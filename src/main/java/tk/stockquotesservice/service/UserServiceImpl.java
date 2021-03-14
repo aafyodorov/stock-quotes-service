@@ -4,28 +4,26 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tk.stockquotesservice.dao.SymbolDAO;
+import tk.stockquotesservice.dao.CompanyDAO;
 import tk.stockquotesservice.dao.UserDAO;
-import tk.stockquotesservice.entity.Expectation;
-import tk.stockquotesservice.entity.Symbol;
 import tk.stockquotesservice.entity.User;
-
-import java.util.Map;
 
 /**
  * @author Andrey Fyodorov
  * Created on 11.03.2021.
  */
 
+//TODO Clean
+
 @Service
 public class UserServiceImpl implements UserService {
 
   private UserDAO userDAO;
-  private SymbolDAO symbolDAO;
+  private CompanyDAO companyDAO;
 
   @Autowired
-  public void setSymbolDAO(SymbolDAO symbolDAO) {
-	this.symbolDAO = symbolDAO;
+  public void setSymbolDAO(CompanyDAO companyDAO) {
+	this.companyDAO = companyDAO;
   }
 
   @Autowired
@@ -36,11 +34,6 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional
   public void add(@NotNull User user) {
-    if (user.getSymbols() != null) {
-	  for (Map.Entry<Symbol, Expectation> entry : user.getSymbols().entrySet()) {
-		symbolDAO.add(entry.getKey());
-	  }
-	}
 	userDAO.add(user);
   }
 

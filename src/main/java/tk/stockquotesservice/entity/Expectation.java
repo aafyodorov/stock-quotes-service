@@ -11,32 +11,25 @@ import javax.persistence.*;
 public class Expectation {
 
   @Column(name="exp_price")
-  double z;
-
-  @Column(name="exchange")
-  String exchange;
+  double expectedPrice;
 
   public Expectation() {
   }
 
-  public Expectation(double z, String exchange) {
-    this.z = z;
-    this.exchange = exchange;
+  public Expectation(double expectedPrice) {
+    this.expectedPrice = expectedPrice;
   }
 
-  public double getZ() {
-    return z;
+  public Expectation(double expectedPrice, String exchange) {
+    this.expectedPrice = expectedPrice;
   }
 
-  public void setZ(double z) {
-    this.z = z;
+  public double getExpectedPrice() {
+    return expectedPrice;
   }
 
-  public String getExchange() {
-    return exchange;
+  public void setExpectedPrice(double expectedPrice) {
+    this.expectedPrice = expectedPrice;
   }
 
-  public void setExchange(String exchange) {
-    this.exchange = exchange;
-  }
 }

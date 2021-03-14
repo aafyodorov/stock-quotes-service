@@ -45,7 +45,7 @@ public class UserDAOImpl implements UserDAO{
 	if (tmp == null) {
 	  throw new NullPointerException();
 	}
-	session.save(user);
+	session.update(user);
   }
 
   @Override

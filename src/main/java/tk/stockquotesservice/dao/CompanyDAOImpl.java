@@ -4,7 +4,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import tk.stockquotesservice.entity.Symbol;
+import tk.stockquotesservice.entity.Company;
+import tk.stockquotesservice.entity.CompanyPK;
 
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ import java.util.Objects;
  */
 
 @Repository
-public class SymbolDAOImpl implements SymbolDAO{
+public class CompanyDAOImpl implements CompanyDAO {
 
   private SessionFactory sessionFactory;
 
@@ -24,35 +25,35 @@ public class SymbolDAOImpl implements SymbolDAO{
   }
 
   @Override
-  public void add(Symbol symbol) {
+  public void add(Company company) {
 	Session session = sessionFactory.getCurrentSession();
 
-	session.save(symbol);
+	session.save(company);
   }
 
   @Override
-  public Symbol getById(int id) {
+  public Company get(CompanyPK pk) {
 	Session session = sessionFactory.getCurrentSession();
 
-	return session.get(Symbol.class, id);
+	return session.get(Company.class, pk);
   }
 
   @Override
-  public void update(Symbol symbol) {
+  public void update(Company company) {
 	Session session = sessionFactory.getCurrentSession();
 
-	Symbol tmp = session.get(Symbol.class, symbol.getId());
+	Company tmp = session.get(Company.class, new CompanyPK(company.getSymbol(), company.getExchange()));
 	if (tmp == null) {
 	  throw new NullPointerException();
 	}
-	session.save(symbol);
+	session.update(company);
   }
 
   @Override
   public void delete(int id) {
 	Session session = sessionFactory.getCurrentSession();
 
-	Symbol user = session.get(Symbol.class, id);
+	Company user = session.get(Company.class, id);
 	session.delete(Objects.requireNonNull(user));
   }
 }

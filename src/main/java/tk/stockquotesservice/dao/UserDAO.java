@@ -1,6 +1,5 @@
 package tk.stockquotesservice.dao;
 
-import org.springframework.stereotype.Repository;
 import tk.stockquotesservice.entity.User;
 
 /**

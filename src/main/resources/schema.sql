@@ -4,26 +4,25 @@ create table users (
                        max_subscribes  int
 );
 
-create table symbol(
-                       symbol_id       serial,
-                       symbol          varchar(10),
-                       exchange        varchar(10),
-                       comp_name       varchar(128),
-                       type            varchar(10),
-                       gen_date        date,
-                       iex_id          varchar(32),
-                       region          varchar(10),
-                       currency        varchar(3),
-                       is_enabled      bool,
-                       primary key (symbol_id, exchange)
+create table company(
+                        symbol          varchar(10),
+                        company_name    varchar(128),
+                        exchange        varchar(10),
+                        industry        varchar(128),
+                        website         varchar(128),
+                        security_name   varchar(128),
+                        issueType       varchar(10),
+                        sector          varchar(128),
+                        country         varchar(3),
+                        primary key (symbol, exchange)
 );
 
 create table expectation(
                             user_id         bigint,
-                            symbol_id       bigint,
+                            symbol          varchar(10),
                             exchange        varchar(10),
                             exp_price       decimal(10,2),
-                            primary key (user_id, symbol_id, exchange),
+                            primary key (user_id, symbol, exchange),
                             foreign key (user_id) references users(user_id),
-                            foreign key (symbol_id, exchange) references symbol(symbol_id, exchange)
+                            foreign key (symbol, exchange) references company(symbol, exchange)
 );
