@@ -18,8 +18,6 @@ import java.util.HashMap;
  * Created on 11.03.2021.
  */
 
-//TODO Clean
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -27,13 +25,13 @@ public class UserServiceImpl implements UserService {
   private CompanyDAO companyDAO;
 
   @Autowired
-  public void setSymbolDAO(CompanyDAO companyDAO) {
-	this.companyDAO = companyDAO;
+  public void setUserDAO(UserDAO userDAO) {
+	this.userDAO = userDAO;
   }
 
   @Autowired
-  public void setUserDAO(UserDAO userDAO) {
-	this.userDAO = userDAO;
+  public void CompanyService(CompanyDAO companyDAO) {
+    this.companyDAO = companyDAO;
   }
 
   @Override
@@ -64,12 +62,19 @@ public class UserServiceImpl implements UserService {
   @Transactional
   public void addStockToWatchList(int userId, Company company, double expPrice) {
     User user = getUser(userId);
-    if (user.getCompanies() == null) {
-      user.setCompanies(new HashMap<>());
+    if (user == null) {
+      user = new User(userId);
+      userDAO.addUser(user);
     }
     if (user.getCurSubscribes() == user.getMaxSubscribes()) {
       throw new TooManyCompaniesException("The maximum number of subscriptions (" + user.getMaxSubscribes() +
           ") has been reached, cannot add a new one");
+    }
+    if (companyDAO.getCompany(company.getPk()) == null) {
+      companyDAO.addCompany(company);
+    }
+    if (user.getCompanies() == null) {
+      user.setCompanies(new HashMap<>());
     }
     user.getCompanies().put(company, new Expectation(expPrice));
     updateUser(user);

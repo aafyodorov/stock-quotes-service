@@ -34,10 +34,14 @@ public class Company {
 
     private String country;
 
+    @Transient
+    private CompanyPK pk;
+
     public Company() {
     }
 
     public Company(CompanyPK companyPK) {
+        this.pk = companyPK;
         symbol = companyPK.getSymbol();
         exchange = companyPK.getExchange();
     }
@@ -115,4 +119,11 @@ public class Company {
         this.country = country;
     }
 
+    public CompanyPK getPk() {
+        return pk;
+    }
+
+    public void setPk(CompanyPK pk) {
+        this.pk = pk;
+    }
 }

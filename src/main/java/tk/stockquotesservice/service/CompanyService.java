@@ -10,9 +10,9 @@ import tk.stockquotesservice.entity.CompanyPK;
 
 public interface CompanyService {
 
-  void add(Company symbol);
-  void addCollection(Iterable<Company> collection);
-  Company get(String symbol, String exchange);
-  void update(Company symbol);
-  void delete(CompanyPK pk);
+  void addCompany(Company symbol);
+  void addCompanies(Iterable<Company> collection);
+  Company getCompany(CompanyPK companyPK);
+  void updateCompany(Company symbol);
+  void deleteCompany(CompanyPK pk);
 }
