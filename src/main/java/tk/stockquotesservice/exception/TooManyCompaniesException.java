@@ -6,10 +6,6 @@ package tk.stockquotesservice.exception;
  */
 
 public class TooManyCompaniesException extends RuntimeException {
-  public TooManyCompaniesException() {
-	super();
-  }
-
   public TooManyCompaniesException(String message) {
 	super(message);
   }

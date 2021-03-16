@@ -72,12 +72,10 @@ class UserDAOImplTest {
 		"values (1, 1, 4), (2, 0, 3)").executeUpdate();
 	User user = session.createQuery("from User where id = 1", User.class).getSingleResult();
 
-	user.setCurSubscribes(5);
 	user.setMaxSubscribes(15);
 	userDAO.updateUser(user);
 	User userCheck = session.createQuery("from User where id = 1", User.class).getSingleResult();
 	Assertions.assertEquals(1, userCheck.getId());
-	Assertions.assertEquals(5, userCheck.getCurSubscribes());
 	Assertions.assertEquals(15, userCheck.getMaxSubscribes());
   }
 

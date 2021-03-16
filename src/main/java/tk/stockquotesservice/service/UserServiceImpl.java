@@ -7,11 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.stockquotesservice.dao.CompanyDAO;
 import tk.stockquotesservice.dao.UserDAO;
 import tk.stockquotesservice.entity.Company;
-import tk.stockquotesservice.entity.Expectation;
 import tk.stockquotesservice.entity.User;
-import tk.stockquotesservice.exception.TooManyCompaniesException;
-
-import java.util.HashMap;
 
 /**
  * @author Andrey Fyodorov
@@ -66,17 +62,10 @@ public class UserServiceImpl implements UserService {
       user = new User(userId);
       userDAO.addUser(user);
     }
-    if (user.getCurSubscribes() == user.getMaxSubscribes()) {
-      throw new TooManyCompaniesException("The maximum number of subscriptions (" + user.getMaxSubscribes() +
-          ") has been reached, cannot add a new one");
-    }
     if (companyDAO.getCompany(company.getPk()) == null) {
       companyDAO.addCompany(company);
     }
-    if (user.getCompanies() == null) {
-      user.setCompanies(new HashMap<>());
-    }
-    user.getCompanies().put(company, new Expectation(expPrice));
+    user.addCompanyToWatchList(company, expPrice);
     updateUser(user);
   }
 

@@ -36,7 +36,7 @@ class UserServiceImplTest {
   UserService userService;
 
   @Test
-  public void addStockToWatchList() {
+  public void addStockToWatchList_checkAddToAllTables() {
 	Session session = sessionFactory.getCurrentSession();
 	Company company1 = new Company(new CompanyPK("AAPL","NAS"));
 	Company company2 = new Company(new CompanyPK("YNDX","NAS"));
@@ -48,5 +48,17 @@ class UserServiceImplTest {
 	assertEquals(2, companyExpectationMap.size());
 	assertEquals(123.25, companyExpectationMap.get(company1).getExpectedPrice());
 	assertEquals(444.99, companyExpectationMap.get(company2).getExpectedPrice());
+  }
+
+  @Test
+  public void addStockToWatchList_addThreeCompanies() {
+	Company company1 = new Company(new CompanyPK("AAPL","NAS"));
+	Company company2 = new Company(new CompanyPK("YNDX","NAS"));
+	Company company3 = new Company(new CompanyPK("SBR","NAS"));
+
+	userService.addStockToWatchList(1, company1, 123.25);
+	userService.addStockToWatchList(1, company2, 444.99);
+	userService.addStockToWatchList(1, company3, 444.99);
+	assertEquals(3, userService.getUser(1).getCurSubscribes());
   }
 }

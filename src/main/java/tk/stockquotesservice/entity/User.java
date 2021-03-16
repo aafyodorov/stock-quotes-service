@@ -1,7 +1,11 @@
 package tk.stockquotesservice.entity;
 
+import tk.stockquotesservice.exception.TooManyCompaniesException;
+
 import javax.persistence.*;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * @author Andrey Fyodorov
@@ -49,10 +53,6 @@ public class User {
 	return curSubscribes;
   }
 
-  public void setCurSubscribes(int curSubscribes) {
-	this.curSubscribes = curSubscribes;
-  }
-
   public int getMaxSubscribes() {
 	return maxSubscribes;
   }
@@ -65,7 +65,23 @@ public class User {
 	return companies;
   }
 
-  public void setCompanies(Map<Company, Expectation> companies) {
-	this.companies = companies;
+  public void addCompanyToWatchList(Company company, double expPrice) {
+	if (curSubscribes == maxSubscribes) {
+	  throw new TooManyCompaniesException("The maximum number of subscriptions (" + maxSubscribes +
+		  ") has been reached, cannot add a new one");
+	} else if (companies == null) {
+	  companies = new HashMap<>();
+	}
+	companies.put(company, new Expectation(expPrice));
+	++curSubscribes;
+  }
+
+  public void deleteCompanyFromWatchList(Company company) {
+    if (companies.get(company) == null) {
+      throw new NoSuchElementException(
+      	String.format("User %d is not subscribed to company: (%s, %s)\n",
+			id, company.getSymbol(), company.getExchange()));
+	}
+    companies.remove(company);
   }
 }

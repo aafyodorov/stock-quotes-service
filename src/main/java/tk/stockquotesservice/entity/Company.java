@@ -46,6 +46,11 @@ public class Company {
         exchange = companyPK.getExchange();
     }
 
+    public Company(String symbol, String exchange) {
+        this.symbol = symbol;
+        this.exchange = exchange;
+        this.pk = new CompanyPK(symbol, exchange);
+    }
 
     public String getSymbol() {
         return symbol;
@@ -125,5 +130,23 @@ public class Company {
 
     public void setPk(CompanyPK pk) {
         this.pk = pk;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Company company = (Company) o;
+
+        if (!symbol.equals(company.symbol)) return false;
+        return exchange.equals(company.exchange);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = symbol.hashCode();
+        result = 31 * result + exchange.hashCode();
+        return result;
     }
 }
