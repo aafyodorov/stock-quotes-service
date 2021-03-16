@@ -8,8 +8,8 @@ import tk.stockquotesservice.entity.User;
  */
 
 public interface UserDAO {
-  void add(User user);
-  User getById(int id);
-  void update(User user);
-  void delete(int id);
+  void addUser(User user);
+  User getUser(int id);
+  void updateUser(User user);
+  void deleteUser(int id);
 }

@@ -6,7 +6,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.stockquotesservice.dao.CompanyDAO;
 import tk.stockquotesservice.dao.UserDAO;
+import tk.stockquotesservice.entity.Company;
+import tk.stockquotesservice.entity.Expectation;
 import tk.stockquotesservice.entity.User;
+import tk.stockquotesservice.exception.TooManyCompaniesException;
+
+import java.util.HashMap;
 
 /**
  * @author Andrey Fyodorov
@@ -33,25 +38,41 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional
-  public void add(@NotNull User user) {
-	userDAO.add(user);
+  public void addUser(@NotNull User user) {
+	userDAO.addUser(user);
   }
 
   @Override
   @Transactional
-  public User getById(int id) {
-    return userDAO.getById(id);
+  public User getUser(int id) {
+    return userDAO.getUser(id);
   }
 
   @Override
   @Transactional
-  public void update(User user) {
-    userDAO.update(user);
+  public void updateUser(User user) {
+    userDAO.updateUser(user);
   }
 
   @Override
   @Transactional
-  public void delete(int id) {
-	userDAO.delete(id);
+  public void deleteUser(int id) {
+	userDAO.deleteUser(id);
   }
+
+  @Override
+  @Transactional
+  public void addStockToWatchList(int userId, Company company, double expPrice) {
+    User user = getUser(userId);
+    if (user.getCompanies() == null) {
+      user.setCompanies(new HashMap<>());
+    }
+    if (user.getCurSubscribes() == user.getMaxSubscribes()) {
+      throw new TooManyCompaniesException("The maximum number of subscriptions (" + user.getMaxSubscribes() +
+          ") has been reached, cannot add a new one");
+    }
+    user.getCompanies().put(company, new Expectation(expPrice));
+    updateUser(user);
+  }
+
 }

@@ -34,5 +34,15 @@
       "name": "io.iexcloud.symbols",
       "type": "java.lang.String",
       "description": "This refdata endpoint returns the list of symbols that IEX Cloud supports for intraday price updates."
+    },
+    {
+      "name": "hibernate.dialect",
+      "type": "java.lang.String",
+      "description": "Hibernate dialect."
+    },
+    {
+      "name": "jdbc.driverClassName",
+      "type": "java.lang.String",
+      "description": "JDBC driver class name."
     }
   ] }

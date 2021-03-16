@@ -24,21 +24,21 @@ public class UserDAOImpl implements UserDAO{
   }
 
   @Override
-  public void add(User user) {
+  public void addUser(User user) {
     Session session = sessionFactory.getCurrentSession();
 
 	session.save(user);
   }
 
   @Override
-  public User getById(int id) {
+  public User getUser(int id) {
 	Session session = sessionFactory.getCurrentSession();
 
 	return session.get(User.class, id);
   }
 
   @Override
-  public void update(User user) {
+  public void updateUser(User user) {
 	Session session = sessionFactory.getCurrentSession();
 
 	User tmp = session.get(User.class, user.getId());
@@ -49,7 +49,7 @@ public class UserDAOImpl implements UserDAO{
   }
 
   @Override
-  public void delete(int id) {
+  public void deleteUser(int id) {
 	Session session = sessionFactory.getCurrentSession();
 
 	User user = session.get(User.class, id);

@@ -1,6 +1,7 @@
 package tk.stockquotesservice.service;
 
 import org.jetbrains.annotations.NotNull;
+import tk.stockquotesservice.entity.Company;
 import tk.stockquotesservice.entity.User;
 
 /**
@@ -10,8 +11,9 @@ import tk.stockquotesservice.entity.User;
 
 public interface UserService {
 
-  void add(@NotNull User user);
-  User getById(int id);
-  void update(User user);
-  void delete(int id);
+  void addUser(@NotNull User user);
+  User getUser(int id);
+  void updateUser(User user);
+  void deleteUser(int id);
+  void addStockToWatchList(int userId, Company company, double expPrice);
 }

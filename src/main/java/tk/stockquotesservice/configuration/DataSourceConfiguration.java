@@ -30,6 +30,12 @@ public class DataSourceConfiguration {
   @Value("${tk.stockquotesservice.url}")
   private String dbURI;
 
+  @Value("${hibernate.dialect}")
+  private String dialect;
+
+  @Value("${jdbc.driverClassName}")
+  private String driverClassName;
+
   @Bean
   public LocalSessionFactoryBean sessionFactory() {
 	LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
@@ -42,7 +48,7 @@ public class DataSourceConfiguration {
   @Bean
   public DataSource dataSource() {
 	BasicDataSource dataSource = new BasicDataSource();
-	dataSource.setDriverClassName("org.postgresql.Driver");
+	dataSource.setDriverClassName(driverClassName);
 	dataSource.setUrl(dbURI);
 	dataSource.setUsername(PG_USER_STCK);
 	dataSource.setPassword(PG_PWD_STCK);
@@ -61,7 +67,7 @@ public class DataSourceConfiguration {
   private Properties hibernateProperties() {
 	Properties hibernateProperties = new Properties();
 	hibernateProperties.setProperty(
-		"hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
+		"hibernate.dialect", dialect);
 
 	return hibernateProperties;
   }
