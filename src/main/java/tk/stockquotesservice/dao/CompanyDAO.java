@@ -9,8 +9,8 @@ import tk.stockquotesservice.entity.CompanyPK;
  */
 
 public interface CompanyDAO {
-  void add(Company company);
-  Company get(CompanyPK pk);
-  void update(Company company);
-  void delete(int id);
+  void addCompany(Company company);
+  Company getCompany(CompanyPK pk);
+  void updateCompany(Company company);
+  void deleteCompany(CompanyPK pk);
 }

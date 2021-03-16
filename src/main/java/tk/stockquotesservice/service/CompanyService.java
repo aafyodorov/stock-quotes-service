@@ -1,6 +1,7 @@
 package tk.stockquotesservice.service;
 
 import tk.stockquotesservice.entity.Company;
+import tk.stockquotesservice.entity.CompanyPK;
 
 /**
  * @author Andrey Fyodorov
@@ -13,5 +14,5 @@ public interface CompanyService {
   void addCollection(Iterable<Company> collection);
   Company get(String symbol, String exchange);
   void update(Company symbol);
-  void delete(int id);
+  void delete(CompanyPK pk);
 }

@@ -25,32 +25,32 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   @Transactional
   public void add(Company company) {
-    companyDAO.add(company);
+    companyDAO.addCompany(company);
   }
 
   @Override
   @Transactional
   public void addCollection(Iterable<Company> collection) {
     for (Company company : collection) {
-      companyDAO.add(company);
+      companyDAO.addCompany(company);
     }
   }
 
   @Override
   @Transactional
   public Company get(String symbol, String exchange) {
-    return companyDAO.get(new CompanyPK(symbol, exchange));
+    return companyDAO.getCompany(new CompanyPK(symbol, exchange));
   }
 
   @Override
   @Transactional
   public void update(Company company) {
-	companyDAO.update(company);
+	companyDAO.updateCompany(company);
   }
 
   @Override
   @Transactional
-  public void delete(int id) {
-    companyDAO.delete(id);
+  public void delete(CompanyPK pk) {
+    companyDAO.deleteCompany(pk);
   }
 }

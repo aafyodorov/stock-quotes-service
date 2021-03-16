@@ -83,7 +83,6 @@ class UserDAOImplTest {
 
   @Test
   public void updateUser_NPE() {
-	Session session = factory.getCurrentSession();
 	User user = new User(999);
 
 	Assertions.assertThrows(NullPointerException.class, () -> userDAO.updateUser(user));
@@ -97,7 +96,7 @@ class UserDAOImplTest {
 		"values (1, 1, 4), (2, 0, 3)").executeUpdate();
 
 	userDAO.deleteUser(2);
-	List<User> userList = session.createQuery("from User where id = 1", User.class).getResultList();
+	List<User> userList = session.createQuery("from User", User.class).getResultList();
 	Assertions.assertEquals(1, userList.size());
 	Assertions.assertEquals(1, userList.get(0).getId());
   }

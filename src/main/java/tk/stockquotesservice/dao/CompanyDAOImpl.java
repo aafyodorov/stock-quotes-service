@@ -25,21 +25,21 @@ public class CompanyDAOImpl implements CompanyDAO {
   }
 
   @Override
-  public void add(Company company) {
+  public void addCompany(Company company) {
 	Session session = sessionFactory.getCurrentSession();
 
 	session.save(company);
   }
 
   @Override
-  public Company get(CompanyPK pk) {
+  public Company getCompany(CompanyPK pk) {
 	Session session = sessionFactory.getCurrentSession();
 
 	return session.get(Company.class, pk);
   }
 
   @Override
-  public void update(Company company) {
+  public void updateCompany(Company company) {
 	Session session = sessionFactory.getCurrentSession();
 
 	Company tmp = session.get(Company.class, new CompanyPK(company.getSymbol(), company.getExchange()));
@@ -50,10 +50,10 @@ public class CompanyDAOImpl implements CompanyDAO {
   }
 
   @Override
-  public void delete(int id) {
+  public void deleteCompany(CompanyPK pk) {
 	Session session = sessionFactory.getCurrentSession();
 
-	Company user = session.get(Company.class, id);
+	Company user = session.get(Company.class, pk);
 	session.delete(Objects.requireNonNull(user));
   }
 }

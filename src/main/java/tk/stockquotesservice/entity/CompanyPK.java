@@ -20,6 +20,22 @@ public class CompanyPK implements Serializable {
 	this.exchange = exchange;
   }
 
+  public String getSymbol() {
+	return symbol;
+  }
+
+  public void setSymbol(String symbol) {
+	this.symbol = symbol;
+  }
+
+  public String getExchange() {
+	return exchange;
+  }
+
+  public void setExchange(String exchange) {
+	this.exchange = exchange;
+  }
+
   @Override
   public boolean equals(Object o) {
 	if (this == o) return true;

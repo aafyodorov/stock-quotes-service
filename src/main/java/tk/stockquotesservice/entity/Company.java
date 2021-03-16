@@ -34,13 +34,23 @@ public class Company {
 
     private String country;
 
+    public Company() {
+    }
+
+    public Company(CompanyPK companyPK) {
+        symbol = companyPK.getSymbol();
+        exchange = companyPK.getExchange();
+    }
+
 
     public String getSymbol() {
         return symbol;
     }
+
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
+
     public String getCompanyName() {
         return companyName;
     }
