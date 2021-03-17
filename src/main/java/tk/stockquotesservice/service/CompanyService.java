@@ -2,6 +2,10 @@ package tk.stockquotesservice.service;
 
 import tk.stockquotesservice.entity.Company;
 import tk.stockquotesservice.entity.CompanyPK;
+import tk.stockquotesservice.entity.Expectation;
+import tk.stockquotesservice.entity.User;
+
+import java.util.Map;
 
 /**
  * @author Andrey Fyodorov
@@ -15,4 +19,5 @@ public interface CompanyService {
   Company getCompany(CompanyPK companyPK);
   void updateCompany(Company symbol);
   void deleteCompany(CompanyPK pk);
+  Map<User, Expectation> getAllSubscribedUsers(CompanyPK pk);
 }

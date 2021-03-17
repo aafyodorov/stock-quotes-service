@@ -3,6 +3,8 @@ package tk.stockquotesservice.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,17 @@ class CompanyDAOImplTest {
 
   @Autowired
   CompanyDAO companyDAO;
+
+  @BeforeEach
+  public void dropEach() {
+    Session session = factory.getCurrentSession();
+
+	session.createSQLQuery("""
+		delete from expectation;
+		delete from users;
+		delete from company;
+		""").executeUpdate();
+  }
 
   @Test
   public void addCompany() {

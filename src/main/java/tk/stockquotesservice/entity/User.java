@@ -84,4 +84,33 @@ public class User {
 	}
     companies.remove(company);
   }
+
+  @Override
+  public boolean equals(Object o) {
+	if (this == o) return true;
+	if (o == null || getClass() != o.getClass()) return false;
+
+	User user = (User) o;
+
+	if (id != user.id) return false;
+	if (curSubscribes != user.curSubscribes) return false;
+	return maxSubscribes == user.maxSubscribes;
+  }
+
+  @Override
+  public int hashCode() {
+	int result = id;
+	result = 31 * result + curSubscribes;
+	result = 31 * result + maxSubscribes;
+	return result;
+  }
+
+  @Override
+  public String toString() {
+	return "User{" +
+		"id=" + id +
+		", curSubscribes=" + curSubscribes +
+		", maxSubscribes=" + maxSubscribes +
+		'}';
+  }
 }

@@ -1,6 +1,7 @@
 package tk.stockquotesservice.entity;
 
 import javax.persistence.*;
+import java.util.Map;
 
 /**
  * @author Andrey Fyodorov
@@ -33,6 +34,16 @@ public class Company {
     private String sector;
 
     private String country;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+        name = "expectation",
+        joinColumns = {
+            @JoinColumn(name = "symbol", referencedColumnName = "symbol"),
+            @JoinColumn(name = "exchange", referencedColumnName = "exchange")})
+    @MapKeyJoinColumn(name = "user_id")
+    @Column(name = "exp_price")
+    private Map<User, Expectation> users;
 
     @Transient
     private CompanyPK pk;
@@ -132,6 +143,14 @@ public class Company {
         this.pk = pk;
     }
 
+    public void setUsers(Map<User, Expectation> users) {
+        this.users = users;
+    }
+
+    public Map<User, Expectation> getUsers() {
+        return users;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -148,5 +167,13 @@ public class Company {
         int result = symbol.hashCode();
         result = 31 * result + exchange.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+            "symbol='" + symbol + '\'' +
+            ", exchange='" + exchange + '\'' +
+            '}';
     }
 }

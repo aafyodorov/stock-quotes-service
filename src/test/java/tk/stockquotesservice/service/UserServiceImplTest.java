@@ -2,6 +2,8 @@ package tk.stockquotesservice.service;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,10 @@ import tk.stockquotesservice.entity.User;
 
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(
-	webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-	classes = StockQuotesServiceApplication.class)
+@SpringBootTest(classes = StockQuotesServiceApplication.class)
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:test.properties")
 @Transactional
@@ -34,6 +34,17 @@ class UserServiceImplTest {
 
   @Autowired
   UserService userService;
+
+  @BeforeEach
+  public void dropEach() {
+	Session session = sessionFactory.getCurrentSession();
+
+	session.createSQLQuery("""
+		delete from expectation;
+		delete from users;
+		delete from company;
+		""").executeUpdate();
+  }
 
   @Test
   public void addStockToWatchList_checkAddToAllTables() {

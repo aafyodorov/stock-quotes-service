@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import tk.stockquotesservice.entity.Company;
 import tk.stockquotesservice.entity.CompanyPK;
+import tk.stockquotesservice.entity.Expectation;
+import tk.stockquotesservice.entity.User;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**

@@ -6,6 +6,10 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.stockquotesservice.dao.CompanyDAO;
 import tk.stockquotesservice.entity.Company;
 import tk.stockquotesservice.entity.CompanyPK;
+import tk.stockquotesservice.entity.Expectation;
+import tk.stockquotesservice.entity.User;
+
+import java.util.Map;
 
 /**
  * @author Andrey Fyodorov
@@ -52,5 +56,11 @@ public class CompanyServiceImpl implements CompanyService {
   @Transactional
   public void deleteCompany(CompanyPK pk) {
     companyDAO.deleteCompany(pk);
+  }
+
+  @Override
+  @Transactional
+  public Map<User, Expectation> getAllSubscribedUsers(CompanyPK pk) {
+    return companyDAO.getCompany(pk).getUsers();
   }
 }
