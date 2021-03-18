@@ -29,21 +29,21 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   @Transactional
   public void addCompany(Company company) {
-    companyDAO.addCompany(company);
+	companyDAO.addCompany(company);
   }
 
   @Override
   @Transactional
   public void addCompanies(Iterable<Company> collection) {
-    for (Company company : collection) {
-      companyDAO.addCompany(company);
-    }
+	for (Company company : collection) {
+	  companyDAO.addCompany(company);
+	}
   }
 
   @Override
   @Transactional
   public Company getCompany(CompanyPK companyPK) {
-    return companyDAO.getCompany(companyPK);
+	return companyDAO.getCompany(companyPK);
   }
 
   @Override
@@ -55,12 +55,12 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   @Transactional
   public void deleteCompany(CompanyPK pk) {
-    companyDAO.deleteCompany(pk);
+	companyDAO.deleteCompany(pk);
   }
 
   @Override
   @Transactional
   public Map<User, Expectation> getAllSubscribedUsers(CompanyPK pk) {
-    return companyDAO.getCompany(pk).getUsers();
+	return companyDAO.getCompany(pk).getUsers();
   }
 }

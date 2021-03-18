@@ -14,7 +14,10 @@ import java.util.Map;
 
 public interface CompanyDAO {
   void addCompany(Company company);
+
   Company getCompany(CompanyPK pk);
+
   void updateCompany(Company company);
+
   void deleteCompany(CompanyPK pk);
 }

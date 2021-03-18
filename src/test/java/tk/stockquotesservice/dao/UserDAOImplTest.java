@@ -22,11 +22,11 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
-	webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-	classes = StockQuotesServiceApplication.class)
+		webEnvironment = SpringBootTest.WebEnvironment.MOCK,
+		classes = StockQuotesServiceApplication.class)
 @AutoConfigureMockMvc
 @TestPropertySource(
-	locations = "classpath:test.properties")
+		locations = "classpath:test.properties")
 @Transactional
 class UserDAOImplTest {
 
@@ -38,13 +38,13 @@ class UserDAOImplTest {
 
   @BeforeEach
   public void dropEach() {
-    Session session = factory.getCurrentSession();
+	Session session = factory.getCurrentSession();
 
 	session.createSQLQuery("""
-		delete from expectation;
-		delete from users;
-		delete from company;
-		""").executeUpdate();
+			delete from expectation;
+			delete from users;
+			delete from company;
+			""").executeUpdate();
   }
 
   @Test
@@ -64,7 +64,7 @@ class UserDAOImplTest {
 	Session session = factory.getCurrentSession();
 
 	session.createSQLQuery("insert into users(user_id, cur_subscribes, max_subscribes) " +
-		"values (1, 1, 4), (2, 0, 3)").executeUpdate();
+			"values (1, 1, 4), (2, 0, 3)").executeUpdate();
 
 	User user1 = userDAO.getUser(1);
 	Assertions.assertEquals(1, user1.getId());
@@ -82,7 +82,7 @@ class UserDAOImplTest {
 	Session session = factory.getCurrentSession();
 
 	session.createSQLQuery("insert into users(user_id, cur_subscribes, max_subscribes) " +
-		"values (1, 1, 4), (2, 0, 3)").executeUpdate();
+			"values (1, 1, 4), (2, 0, 3)").executeUpdate();
 	User user = session.createQuery("from User where id = 1", User.class).getSingleResult();
 
 	user.setMaxSubscribes(15);
@@ -104,7 +104,7 @@ class UserDAOImplTest {
 	Session session = factory.getCurrentSession();
 
 	session.createSQLQuery("insert into users(user_id, cur_subscribes, max_subscribes) " +
-		"values (1, 1, 4), (2, 0, 3)").executeUpdate();
+			"values (1, 1, 4), (2, 0, 3)").executeUpdate();
 
 	userDAO.deleteUser(2);
 	List<User> userList = session.createQuery("from User", User.class).getResultList();

@@ -28,7 +28,7 @@ public class User {
 
   @ElementCollection
   @CollectionTable(name = "expectation", joinColumns = @JoinColumn(name = "user_id"))
-  @MapKeyJoinColumns(value = {@MapKeyJoinColumn (name = "exchange"), @MapKeyJoinColumn (name = "symbol")})
+  @MapKeyJoinColumns(value = {@MapKeyJoinColumn(name = "exchange"), @MapKeyJoinColumn(name = "symbol")})
   @Column(name = "exp_price")
   private Map<Company, Expectation> companies;
 
@@ -68,7 +68,7 @@ public class User {
   public void addCompanyToWatchList(Company company, double expPrice) {
 	if (curSubscribes == maxSubscribes) {
 	  throw new TooManyCompaniesException("The maximum number of subscriptions (" + maxSubscribes +
-		  ") has been reached, cannot add a new one");
+			  ") has been reached, cannot add a new one");
 	} else if (companies == null) {
 	  companies = new HashMap<>();
 	}
@@ -77,12 +77,12 @@ public class User {
   }
 
   public void deleteCompanyFromWatchList(Company company) {
-    if (companies.get(company) == null) {
-      throw new NoSuchElementException(
-      	String.format("User %d is not subscribed to company: (%s, %s)\n",
-			id, company.getSymbol(), company.getExchange()));
+	if (companies.get(company) == null) {
+	  throw new NoSuchElementException(
+			  String.format("User %d is not subscribed to company: (%s, %s)\n",
+					  id, company.getSymbol(), company.getExchange()));
 	}
-    companies.remove(company);
+	companies.remove(company);
   }
 
   @Override
@@ -108,9 +108,9 @@ public class User {
   @Override
   public String toString() {
 	return "User{" +
-		"id=" + id +
-		", curSubscribes=" + curSubscribes +
-		", maxSubscribes=" + maxSubscribes +
-		'}';
+			"id=" + id +
+			", curSubscribes=" + curSubscribes +
+			", maxSubscribes=" + maxSubscribes +
+			'}';
   }
 }

@@ -13,167 +13,167 @@ import java.util.Map;
 @IdClass(CompanyPK.class)
 public class Company {
 
-    @Id
-    private String symbol;
+  @Id
+  private String symbol;
 
-    @Column(name = "company_name")
-    private String companyName;
+  @Column(name = "company_name")
+  private String companyName;
 
-    @Id
-    private String exchange;
+  @Id
+  private String exchange;
 
-    private String industry;
+  private String industry;
 
-    private String website;
+  private String website;
 
-    @Column(name = "security_name")
-    private String securityName;
+  @Column(name = "security_name")
+  private String securityName;
 
-    private String issueType;
+  private String issueType;
 
-    private String sector;
+  private String sector;
 
-    private String country;
+  private String country;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(
-        name = "expectation",
-        joinColumns = {
-            @JoinColumn(name = "symbol", referencedColumnName = "symbol"),
-            @JoinColumn(name = "exchange", referencedColumnName = "exchange")})
-    @MapKeyJoinColumn(name = "user_id")
-    @Column(name = "exp_price")
-    private Map<User, Expectation> users;
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(
+		  name = "expectation",
+		  joinColumns = {
+				  @JoinColumn(name = "symbol", referencedColumnName = "symbol"),
+				  @JoinColumn(name = "exchange", referencedColumnName = "exchange")})
+  @MapKeyJoinColumn(name = "user_id")
+  @Column(name = "exp_price")
+  private Map<User, Expectation> users;
 
-    @Transient
-    private CompanyPK pk;
+  @Transient
+  private CompanyPK pk;
 
-    public Company() {
-    }
+  public Company() {
+  }
 
-    public Company(CompanyPK companyPK) {
-        this.pk = companyPK;
-        symbol = companyPK.getSymbol();
-        exchange = companyPK.getExchange();
-    }
+  public Company(CompanyPK companyPK) {
+	this.pk = companyPK;
+	symbol = companyPK.getSymbol();
+	exchange = companyPK.getExchange();
+  }
 
-    public Company(String symbol, String exchange) {
-        this.symbol = symbol;
-        this.exchange = exchange;
-        this.pk = new CompanyPK(symbol, exchange);
-    }
+  public Company(String symbol, String exchange) {
+	this.symbol = symbol;
+	this.exchange = exchange;
+	this.pk = new CompanyPK(symbol, exchange);
+  }
 
-    public String getSymbol() {
-        return symbol;
-    }
+  public String getSymbol() {
+	return symbol;
+  }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
+  public void setSymbol(String symbol) {
+	this.symbol = symbol;
+  }
 
-    public String getCompanyName() {
-        return companyName;
-    }
+  public String getCompanyName() {
+	return companyName;
+  }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
+  public void setCompanyName(String companyName) {
+	this.companyName = companyName;
+  }
 
-    public String getExchange() {
-        return exchange;
-    }
+  public String getExchange() {
+	return exchange;
+  }
 
-    public void setExchange(String exchange) {
-        this.exchange = exchange;
-    }
+  public void setExchange(String exchange) {
+	this.exchange = exchange;
+  }
 
-    public String getIndustry() {
-        return industry;
-    }
+  public String getIndustry() {
+	return industry;
+  }
 
-    public void setIndustry(String industry) {
-        this.industry = industry;
-    }
+  public void setIndustry(String industry) {
+	this.industry = industry;
+  }
 
-    public String getWebsite() {
-        return website;
-    }
+  public String getWebsite() {
+	return website;
+  }
 
-    public void setWebsite(String website) {
-        this.website = website;
-    }
+  public void setWebsite(String website) {
+	this.website = website;
+  }
 
-    public String getSecurityName() {
-        return securityName;
-    }
+  public String getSecurityName() {
+	return securityName;
+  }
 
-    public void setSecurityName(String securityName) {
-        this.securityName = securityName;
-    }
+  public void setSecurityName(String securityName) {
+	this.securityName = securityName;
+  }
 
-    public String getIssueType() {
-        return issueType;
-    }
+  public String getIssueType() {
+	return issueType;
+  }
 
-    public void setIssueType(String issueType) {
-        this.issueType = issueType;
-    }
+  public void setIssueType(String issueType) {
+	this.issueType = issueType;
+  }
 
-    public String getSector() {
-        return sector;
-    }
+  public String getSector() {
+	return sector;
+  }
 
-    public void setSector(String sector) {
-        this.sector = sector;
-    }
+  public void setSector(String sector) {
+	this.sector = sector;
+  }
 
-    public String getCountry() {
-        return country;
-    }
+  public String getCountry() {
+	return country;
+  }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+  public void setCountry(String country) {
+	this.country = country;
+  }
 
-    public CompanyPK getPk() {
-        return pk;
-    }
+  public CompanyPK getPk() {
+	return pk;
+  }
 
-    public void setPk(CompanyPK pk) {
-        this.pk = pk;
-    }
+  public void setPk(CompanyPK pk) {
+	this.pk = pk;
+  }
 
-    public void setUsers(Map<User, Expectation> users) {
-        this.users = users;
-    }
+  public void setUsers(Map<User, Expectation> users) {
+	this.users = users;
+  }
 
-    public Map<User, Expectation> getUsers() {
-        return users;
-    }
+  public Map<User, Expectation> getUsers() {
+	return users;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+  @Override
+  public boolean equals(Object o) {
+	if (this == o) return true;
+	if (o == null || getClass() != o.getClass()) return false;
 
-        Company company = (Company) o;
+	Company company = (Company) o;
 
-        if (!symbol.equals(company.symbol)) return false;
-        return exchange.equals(company.exchange);
-    }
+	if (!symbol.equals(company.symbol)) return false;
+	return exchange.equals(company.exchange);
+  }
 
-    @Override
-    public int hashCode() {
-        int result = symbol.hashCode();
-        result = 31 * result + exchange.hashCode();
-        return result;
-    }
+  @Override
+  public int hashCode() {
+	int result = symbol.hashCode();
+	result = 31 * result + exchange.hashCode();
+	return result;
+  }
 
-    @Override
-    public String toString() {
-        return "Company{" +
-            "symbol='" + symbol + '\'' +
-            ", exchange='" + exchange + '\'' +
-            '}';
-    }
+  @Override
+  public String toString() {
+	return "Company{" +
+			"symbol='" + symbol + '\'' +
+			", exchange='" + exchange + '\'' +
+			'}';
+  }
 }

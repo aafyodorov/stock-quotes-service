@@ -40,17 +40,17 @@ class UserServiceImplTest {
 	Session session = sessionFactory.getCurrentSession();
 
 	session.createSQLQuery("""
-		delete from expectation;
-		delete from users;
-		delete from company;
-		""").executeUpdate();
+			delete from expectation;
+			delete from users;
+			delete from company;
+			""").executeUpdate();
   }
 
   @Test
   public void addStockToWatchList_checkAddToAllTables() {
 	Session session = sessionFactory.getCurrentSession();
-	Company company1 = new Company(new CompanyPK("AAPL","NAS"));
-	Company company2 = new Company(new CompanyPK("YNDX","NAS"));
+	Company company1 = new Company(new CompanyPK("AAPL", "NAS"));
+	Company company2 = new Company(new CompanyPK("YNDX", "NAS"));
 
 	userService.addStockToWatchList(1, company1, 123.25);
 	userService.addStockToWatchList(1, company2, 444.99);
@@ -63,9 +63,9 @@ class UserServiceImplTest {
 
   @Test
   public void addStockToWatchList_addThreeCompanies() {
-	Company company1 = new Company(new CompanyPK("AAPL","NAS"));
-	Company company2 = new Company(new CompanyPK("YNDX","NAS"));
-	Company company3 = new Company(new CompanyPK("SBR","NAS"));
+	Company company1 = new Company(new CompanyPK("AAPL", "NAS"));
+	Company company2 = new Company(new CompanyPK("YNDX", "NAS"));
+	Company company3 = new Company(new CompanyPK("SBR", "NAS"));
 
 	userService.addStockToWatchList(1, company1, 123.25);
 	userService.addStockToWatchList(1, company2, 444.99);

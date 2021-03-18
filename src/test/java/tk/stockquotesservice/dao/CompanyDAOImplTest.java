@@ -24,8 +24,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
-	webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-	classes = StockQuotesServiceApplication.class
+		webEnvironment = SpringBootTest.WebEnvironment.MOCK,
+		classes = StockQuotesServiceApplication.class
 )
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:test.properties")
@@ -40,13 +40,13 @@ class CompanyDAOImplTest {
 
   @BeforeEach
   public void dropEach() {
-    Session session = factory.getCurrentSession();
+	Session session = factory.getCurrentSession();
 
 	session.createSQLQuery("""
-		delete from expectation;
-		delete from users;
-		delete from company;
-		""").executeUpdate();
+			delete from expectation;
+			delete from users;
+			delete from company;
+			""").executeUpdate();
   }
 
   @Test
@@ -71,7 +71,7 @@ class CompanyDAOImplTest {
 	Session session = factory.getCurrentSession();
 
 	session.createSQLQuery("insert into company(symbol, exchange) values " +
-		"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
+			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
 
 	Company company1 = companyDAO.getCompany(new CompanyPK("CMP", "NAS"));
 	Company company2 = companyDAO.getCompany(new CompanyPK("CMP2", "EXC"));
@@ -86,21 +86,21 @@ class CompanyDAOImplTest {
 	Session session = factory.getCurrentSession();
 
 	session.createSQLQuery("insert into company(symbol, exchange) values " +
-		"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
+			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
 
 	Company company = companyDAO.getCompany(new CompanyPK("CMP2", "EXC"));
 	company.setCompanyName("Test name");
 	companyDAO.updateCompany(company);
 	Company companyCheck = session
-		.createQuery("from Company where symbol = 'CMP2' and exchange = 'EXC'", Company.class)
-		.getSingleResult();
+			.createQuery("from Company where symbol = 'CMP2' and exchange = 'EXC'", Company.class)
+			.getSingleResult();
 	assertEquals("Test name", companyCheck.getCompanyName());
   }
 
   @Test
   public void updateCompany_NPE() {
-    Company company = new Company(new CompanyPK("CMP2", "EXC"));
-    assertThrows(NullPointerException.class, () -> companyDAO.updateCompany(company));
+	Company company = new Company(new CompanyPK("CMP2", "EXC"));
+	assertThrows(NullPointerException.class, () -> companyDAO.updateCompany(company));
   }
 
   @Test
@@ -108,7 +108,7 @@ class CompanyDAOImplTest {
 	Session session = factory.getCurrentSession();
 
 	session.createSQLQuery("insert into company(symbol, exchange) values " +
-		"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
+			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
 	companyDAO.deleteCompany(new CompanyPK("CMP2", "EXC"));
 	List<Company> companies = session.createQuery("from Company", Company.class).getResultList();
 	assertEquals(1, companies.size());

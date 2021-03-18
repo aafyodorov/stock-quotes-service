@@ -15,6 +15,6 @@ import tk.stockquotesservice.data.Quote;
 public interface IEXClient {
   @GetMapping("${io.iexcloud.quote}")
   Quote getQuotesByTicker(@PathVariable(value = "symbol") String symbol,
-						  @RequestParam (value = "token") String token);
+						  @RequestParam(value = "token") String token);
 
 }

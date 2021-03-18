@@ -36,7 +36,7 @@ class CompanyServiceImplTest {
 
   @Test
   public void getAllSubscribedUsers() {
-    CompanyPK companyPK = new CompanyPK("AAPL","NAS");
+	CompanyPK companyPK = new CompanyPK("AAPL", "NAS");
 	Company company1 = new Company(companyPK);
 	User user1 = new User(1);
 	User user2 = new User(2);

@@ -10,26 +10,26 @@ import javax.persistence.*;
 @Embeddable
 public class Expectation {
 
-  @Column(name="exp_price")
+  @Column(name = "exp_price")
   double expectedPrice;
 
   public Expectation() {
   }
 
   public Expectation(double expectedPrice) {
-    this.expectedPrice = expectedPrice;
+	this.expectedPrice = expectedPrice;
   }
 
   public Expectation(double expectedPrice, String exchange) {
-    this.expectedPrice = expectedPrice;
+	this.expectedPrice = expectedPrice;
   }
 
   public double getExpectedPrice() {
-    return expectedPrice;
+	return expectedPrice;
   }
 
   public void setExpectedPrice(double expectedPrice) {
-    this.expectedPrice = expectedPrice;
+	this.expectedPrice = expectedPrice;
   }
 
 }

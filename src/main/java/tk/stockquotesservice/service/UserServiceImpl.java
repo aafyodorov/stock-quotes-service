@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   public void CompanyService(CompanyDAO companyDAO) {
-    this.companyDAO = companyDAO;
+	this.companyDAO = companyDAO;
   }
 
   @Override
@@ -39,13 +39,13 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional
   public User getUser(int id) {
-    return userDAO.getUser(id);
+	return userDAO.getUser(id);
   }
 
   @Override
   @Transactional
   public void updateUser(User user) {
-    userDAO.updateUser(user);
+	userDAO.updateUser(user);
   }
 
   @Override
@@ -57,16 +57,16 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional
   public void addStockToWatchList(int userId, Company company, double expPrice) {
-    User user = getUser(userId);
-    if (user == null) {
-      user = new User(userId);
-      userDAO.addUser(user);
-    }
-    if (companyDAO.getCompany(company.getPk()) == null) {
-      companyDAO.addCompany(company);
-    }
-    user.addCompanyToWatchList(company, expPrice);
-    updateUser(user);
+	User user = getUser(userId);
+	if (user == null) {
+	  user = new User(userId);
+	  userDAO.addUser(user);
+	}
+	if (companyDAO.getCompany(company.getPk()) == null) {
+	  companyDAO.addCompany(company);
+	}
+	user.addCompanyToWatchList(company, expPrice);
+	updateUser(user);
   }
 
 }

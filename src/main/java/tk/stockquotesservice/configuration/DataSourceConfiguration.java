@@ -59,7 +59,7 @@ public class DataSourceConfiguration {
   @Bean
   public PlatformTransactionManager hibernateTransactionManager() {
 	HibernateTransactionManager transactionManager
-		= new HibernateTransactionManager();
+			= new HibernateTransactionManager();
 	transactionManager.setSessionFactory(sessionFactory().getObject());
 	return transactionManager;
   }
@@ -67,7 +67,7 @@ public class DataSourceConfiguration {
   private Properties hibernateProperties() {
 	Properties hibernateProperties = new Properties();
 	hibernateProperties.setProperty(
-		"hibernate.dialect", dialect);
+			"hibernate.dialect", dialect);
 
 	return hibernateProperties;
   }

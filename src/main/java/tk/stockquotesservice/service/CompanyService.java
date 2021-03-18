@@ -15,9 +15,14 @@ import java.util.Map;
 public interface CompanyService {
 
   void addCompany(Company symbol);
+
   void addCompanies(Iterable<Company> collection);
+
   Company getCompany(CompanyPK companyPK);
+
   void updateCompany(Company symbol);
+
   void deleteCompany(CompanyPK pk);
+
   Map<User, Expectation> getAllSubscribedUsers(CompanyPK pk);
 }

@@ -12,8 +12,12 @@ import tk.stockquotesservice.entity.User;
 public interface UserService {
 
   void addUser(@NotNull User user);
+
   User getUser(int id);
+
   void updateUser(User user);
+
   void deleteUser(int id);
+
   void addStockToWatchList(int userId, Company company, double expPrice);
 }

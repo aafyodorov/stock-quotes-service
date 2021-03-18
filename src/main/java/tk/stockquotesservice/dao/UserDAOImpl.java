@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 
 @Repository
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
 
   private SessionFactory sessionFactory;
 
@@ -25,7 +25,7 @@ public class UserDAOImpl implements UserDAO{
 
   @Override
   public void addUser(User user) {
-    Session session = sessionFactory.getCurrentSession();
+	Session session = sessionFactory.getCurrentSession();
 
 	session.save(user);
   }

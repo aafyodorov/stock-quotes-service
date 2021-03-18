@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import tk.stockquotesservice.data.Quote;
 import tk.stockquotesservice.externalServicesClients.IEXClient;
@@ -31,25 +32,19 @@ public class StockQuotesController {
   }
 
   @GetMapping("/quote")
-  ResponseEntity<String> getQuotes(@RequestParam(value = "symbol") String symbol) {
-    Quote quote = client.getQuotesByTicker(symbol, token);
-    return ResponseEntity
-        .status(HttpStatus.OK)
-        .header(HttpHeaders.CONTENT_TYPE, "application/json")
-        .body(mapQuotesToJson(quote).toString());
+  ResponseEntity<Quote> getQuotes(@RequestParam(value = "symbol") String symbol) {
+	Quote quote = client.getQuotesByTicker(symbol, token);
+	return ResponseEntity
+			.status(HttpStatus.OK)
+			.header(HttpHeaders.CONTENT_TYPE, "application/json")
+			.body(quote);
   }
 
-  private JSONObject mapQuotesToJson(Quote quote) {
-    JSONObject jsonObject = new JSONObject();
-    jsonObject.put("symbol", quote.getSymbol());
-    jsonObject.put("companyName", quote.getCompanyName());
-    jsonObject.put("primaryExchange", quote.getPrimaryExchange());
-    jsonObject.put("iexOpen", quote.getIexOpen());
-    jsonObject.put("iexOpenTime", quote.getIexOpenTime());
-    jsonObject.put("latestSource", quote.getLatestSource());
-    jsonObject.put("latestPrice", quote.getLatestPrice());
-    jsonObject.put("latestUpdate", quote.getLatestUpdate());
-    jsonObject.put("latestVolume", quote.getLatestVolume());
-    return jsonObject;
+  @PostMapping("/add")
+  ResponseEntity<JSONObject> getQuotes(
+		  @RequestParam(value = "user_id") int userId,
+		  @RequestParam(value = "symbol") String symbol,
+		  @RequestParam(value = "exp_price") double exp_price) {
+    return null;
   }
 }
