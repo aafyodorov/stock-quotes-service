@@ -15,7 +15,7 @@
     <name>stock-quotes-service</name>
     <description>Microservice for stock quotes</description>
     <properties>
-        <java.version>15</java.version>
+        <java.version>16</java.version>
         <spring-cloud.version>2020.0.1</spring-cloud.version>
         <spring-orm.version>5.3.4</spring-orm.version>
     </properties>

@@ -4,17 +4,22 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+//import tk.stockquotesservice.configuration.FeignClientConfig;
 import tk.stockquotesservice.data.Quote;
+import tk.stockquotesservice.entity.Company;
 
 /**
  * * @author Andrey Fyodorov
  * * Created on 12.02.2021.
  */
 
-@FeignClient(name = "IEXClient", url = "${io.iexcloud.apiURI}")
+@FeignClient(name = "IEXClient", url = "${io.iexcloud.apiURI}"/*, configuration = FeignClientConfig.class*/)
 public interface IEXClient {
   @GetMapping("${io.iexcloud.quote}")
   Quote getQuotesByTicker(@PathVariable(value = "symbol") String symbol,
 						  @RequestParam(value = "token") String token);
 
+  @GetMapping("${io.iexcloud.company}")
+  Company getCompany(@PathVariable(value = "symbol") String symbol,
+					 @RequestParam(value = "token") String token);
 }

@@ -1,5 +1,9 @@
 package tk.stockquotesservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import javax.persistence.*;
 import java.util.Map;
 
@@ -11,6 +15,18 @@ import java.util.Map;
 @Entity
 @Table(name = "company")
 @IdClass(CompanyPK.class)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+		"symbol",
+		"companyName",
+		"exchange",
+		"industry",
+		"website",
+		"securityName",
+		"issueType",
+		"sector",
+		"country",
+})
 public class Company {
 
   @Id
@@ -29,6 +45,7 @@ public class Company {
   @Column(name = "security_name")
   private String securityName;
 
+  @Column(name = "issuetype")
   private String issueType;
 
   private String sector;
@@ -43,9 +60,11 @@ public class Company {
 				  @JoinColumn(name = "exchange", referencedColumnName = "exchange")})
   @MapKeyJoinColumn(name = "user_id")
   @Column(name = "exp_price")
+  @JsonIgnore
   private Map<User, Expectation> users;
 
   @Transient
+  @JsonIgnore
   private CompanyPK pk;
 
   public Company() {
@@ -171,9 +190,17 @@ public class Company {
 
   @Override
   public String toString() {
-	return "Company{" +
-			"symbol='" + symbol + '\'' +
-			", exchange='" + exchange + '\'' +
-			'}';
+	return String.format("""
+			Company name:	%s (%s)
+			Country:		%s
+			Industry:		%s
+			Sector:			%s
+			Web site:		%s
+			""", companyName, symbol,
+			country,
+			industry,
+			sector,
+			website);
   }
+
 }

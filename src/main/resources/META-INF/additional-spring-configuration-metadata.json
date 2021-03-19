@@ -44,5 +44,10 @@
       "name": "jdbc.driverClassName",
       "type": "java.lang.String",
       "description": "JDBC driver class name."
+    },
+    {
+      "name": "io.iexcloud.company",
+      "type": "java.lang.String",
+      "description": "Get Company by symbol."
     }
   ] }
