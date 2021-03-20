@@ -106,7 +106,7 @@ class UserDAOImplTest {
 	session.createSQLQuery("insert into users(user_id, cur_subscribes, max_subscribes) " +
 			"values (1, 1, 4), (2, 0, 3)").executeUpdate();
 
-	userDAO.deleteUser(2);
+	userDAO.deleteUser(2L);
 	List<User> userList = session.createQuery("from User", User.class).getResultList();
 	Assertions.assertEquals(1, userList.size());
 	Assertions.assertEquals(1, userList.get(0).getId());

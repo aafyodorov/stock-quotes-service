@@ -10,9 +10,9 @@ import tk.stockquotesservice.entity.User;
 public interface UserDAO {
   void addUser(User user);
 
-  User getUser(int id);
+  User getUser(long id);
 
   void updateUser(User user);
 
-  void deleteUser(int id);
+  void deleteUser(long id);
 }

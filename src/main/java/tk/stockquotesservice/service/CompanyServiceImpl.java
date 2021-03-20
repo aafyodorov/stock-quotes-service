@@ -9,6 +9,7 @@ import tk.stockquotesservice.entity.CompanyPK;
 import tk.stockquotesservice.entity.Expectation;
 import tk.stockquotesservice.entity.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,7 +44,7 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   @Transactional
   public Company getCompany(CompanyPK companyPK) {
-	return companyDAO.getCompany(companyPK);
+	return companyDAO.getCompanyPK(companyPK);
   }
 
   @Override
@@ -61,6 +62,12 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   @Transactional
   public Map<User, Expectation> getAllSubscribedUsers(CompanyPK pk) {
-	return companyDAO.getCompany(pk).getUsers();
+	return companyDAO.getCompanyPK(pk).getUsers();
+  }
+
+  @Override
+  @Transactional
+  public List<Company> getCompaniesBySymbol(String symbol) {
+	return null;
   }
 }

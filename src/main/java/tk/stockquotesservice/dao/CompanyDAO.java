@@ -2,10 +2,8 @@ package tk.stockquotesservice.dao;
 
 import tk.stockquotesservice.entity.Company;
 import tk.stockquotesservice.entity.CompanyPK;
-import tk.stockquotesservice.entity.Expectation;
-import tk.stockquotesservice.entity.User;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author Andrey Fyodorov
@@ -15,7 +13,9 @@ import java.util.Map;
 public interface CompanyDAO {
   void addCompany(Company company);
 
-  Company getCompany(CompanyPK pk);
+  Company getCompanyPK(CompanyPK pk);
+
+  List<Company> getCompaniesNySymbol(String symbol);
 
   void updateCompany(Company company);
 

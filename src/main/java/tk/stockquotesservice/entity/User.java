@@ -18,7 +18,7 @@ public class User {
 
   @Id
   @Column(name = "user_id")
-  private int id;
+  private long id;
 
   @Column(name = "cur_subscribes")
   private int curSubscribes;
@@ -36,12 +36,12 @@ public class User {
 	maxSubscribes = 3;
   }
 
-  public User(int id) {
+  public User(long id) {
 	this();
 	this.id = id;
   }
 
-  public int getId() {
+  public long getId() {
 	return id;
   }
 
@@ -103,10 +103,10 @@ public class User {
 
   @Override
   public int hashCode() {
-	int result = id;
+	long result = id;
 	result = 31 * result + curSubscribes;
 	result = 31 * result + maxSubscribes;
-	return result;
+	return (int) result;
   }
 
   @Override

@@ -5,6 +5,7 @@ import tk.stockquotesservice.entity.CompanyPK;
 import tk.stockquotesservice.entity.Expectation;
 import tk.stockquotesservice.entity.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,4 +26,6 @@ public interface CompanyService {
   void deleteCompany(CompanyPK pk);
 
   Map<User, Expectation> getAllSubscribedUsers(CompanyPK pk);
+
+  List<Company> getCompaniesBySymbol(String symbol);
 }

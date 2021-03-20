@@ -3,7 +3,6 @@ package tk.stockquotesservice.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +18,7 @@ import tk.stockquotesservice.entity.CompanyPK;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -73,8 +71,8 @@ class CompanyDAOImplTest {
 	session.createSQLQuery("insert into company(symbol, exchange) values " +
 			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
 
-	Company company1 = companyDAO.getCompany(new CompanyPK("CMP", "NAS"));
-	Company company2 = companyDAO.getCompany(new CompanyPK("CMP2", "EXC"));
+	Company company1 = companyDAO.getCompanyPK(new CompanyPK("CMP", "NAS"));
+	Company company2 = companyDAO.getCompanyPK(new CompanyPK("CMP2", "EXC"));
 	assertEquals("CMP", company1.getSymbol());
 	assertEquals("NAS", company1.getExchange());
 	assertEquals("CMP2", company2.getSymbol());
@@ -88,7 +86,7 @@ class CompanyDAOImplTest {
 	session.createSQLQuery("insert into company(symbol, exchange) values " +
 			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
 
-	Company company = companyDAO.getCompany(new CompanyPK("CMP2", "EXC"));
+	Company company = companyDAO.getCompanyPK(new CompanyPK("CMP2", "EXC"));
 	company.setCompanyName("Test name");
 	companyDAO.updateCompany(company);
 	Company companyCheck = session
@@ -113,5 +111,34 @@ class CompanyDAOImplTest {
 	List<Company> companies = session.createQuery("from Company", Company.class).getResultList();
 	assertEquals(1, companies.size());
 	assertEquals("NAS", companies.get(0).getExchange());
+  }
+
+  @Test
+  public void getCompaniesBySymbol_getEmptyList() {
+	List<Company> companies = companyDAO.getCompaniesNySymbol("AAPL");
+	assertTrue(companies.isEmpty());
+  }
+
+  @Test
+  public void getCompaniesBySymbol_getOneCompanyFromTwoCortegeTable_CortegesHasDiffSymbols() {
+	Session session = factory.getCurrentSession();
+
+	session.createSQLQuery("insert into company(symbol, exchange) values " +
+			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
+
+	List<Company> companies = companyDAO.getCompaniesNySymbol("CMP");
+	assertEquals(1, companies.size());
+  }
+
+
+  @Test
+  public void getCompaniesBySymbol_getOneCompanyFromTwoCortegeTable_CortegesHasSameSymbols() {
+	Session session = factory.getCurrentSession();
+
+	session.createSQLQuery("insert into company(symbol, exchange) values " +
+			"('CMP', 'NAS'), ('CMP', 'EXC')").executeUpdate();
+
+	List<Company> companies = companyDAO.getCompaniesNySymbol("CMP");
+	assertEquals(2, companies.size());
   }
 }

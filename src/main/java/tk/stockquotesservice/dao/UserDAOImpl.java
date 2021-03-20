@@ -31,7 +31,7 @@ public class UserDAOImpl implements UserDAO {
   }
 
   @Override
-  public User getUser(int id) {
+  public User getUser(long id) {
 	Session session = sessionFactory.getCurrentSession();
 
 	return session.get(User.class, id);
@@ -49,7 +49,7 @@ public class UserDAOImpl implements UserDAO {
   }
 
   @Override
-  public void deleteUser(int id) {
+  public void deleteUser(long id) {
 	Session session = sessionFactory.getCurrentSession();
 
 	User user = session.get(User.class, id);

@@ -9,6 +9,8 @@ import tk.stockquotesservice.dao.UserDAO;
 import tk.stockquotesservice.entity.Company;
 import tk.stockquotesservice.entity.User;
 
+import java.util.Objects;
+
 /**
  * @author Andrey Fyodorov
  * Created on 11.03.2021.
@@ -38,8 +40,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional
-  public User getUser(int id) {
-	return userDAO.getUser(id);
+  public User getUser(long id) {
+	return Objects.requireNonNull(userDAO.getUser(id));
   }
 
   @Override
@@ -57,12 +59,14 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional
   public void addStockToWatchList(int userId, Company company, double expPrice) {
-	User user = getUser(userId);
-	if (user == null) {
+	User user;
+	try {
+	  user = getUser(userId);
+	} catch (NullPointerException ex) {
 	  user = new User(userId);
 	  userDAO.addUser(user);
 	}
-	if (companyDAO.getCompany(company.getPk()) == null) {
+	if (companyDAO.getCompanyPK(company.getPk()) == null) {
 	  companyDAO.addCompany(company);
 	}
 	user.addCompanyToWatchList(company, expPrice);

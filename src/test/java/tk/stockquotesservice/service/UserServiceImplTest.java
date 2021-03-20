@@ -55,7 +55,7 @@ class UserServiceImplTest {
 	userService.addStockToWatchList(1, company1, 123.25);
 	userService.addStockToWatchList(1, company2, 444.99);
 
-	Map<Company, Expectation> companyExpectationMap = session.get(User.class, 1).getCompanies();
+	Map<Company, Expectation> companyExpectationMap = session.get(User.class, 1L).getCompanies();
 	assertEquals(2, companyExpectationMap.size());
 	assertEquals(123.25, companyExpectationMap.get(company1).getExpectedPrice());
 	assertEquals(444.99, companyExpectationMap.get(company2).getExpectedPrice());
