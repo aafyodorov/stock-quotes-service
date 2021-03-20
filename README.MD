@@ -19,11 +19,11 @@ watch list, and when a certain value is reached, send a notification~~ (_**not i
 
 #### Not implemented:
 
-* `GET /add` - Add a quote to watch list. <br>
+* `POST /observer/add` - Add a quote to watch list. <br>
   Required parameters:
-    * `user_id` - user's id
+    * `userId` - user's id
     * `symbol` - ticker
-    * `exp_price` - expected price.
+    * `expPrice` - expected price.
 * `GET /remove` - Remove a quote from watch list. <br>
   Required parameters:
     * `user_id` - user's id

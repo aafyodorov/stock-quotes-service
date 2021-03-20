@@ -3,6 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+logs
 
 ### STS ###
 .apt_generated
@@ -33,7 +34,6 @@ build/
 .vscode/
 
 ### My ###
-src/main/resources/tmp
-logs
+src/main/resources/notes
 src/main/resources/.env
 src/main/java/tk/stockquotesservice/controllers/TestController.java

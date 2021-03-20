@@ -66,7 +66,7 @@ public class User {
   }
 
   public void addCompanyToWatchList(Company company, double expPrice) {
-	if (curSubscribes == maxSubscribes) {
+	if (!this.isAbleToAddCompany()) {
 	  throw new TooManyCompaniesException("The maximum number of subscriptions (" + maxSubscribes +
 			  ") has been reached, cannot add a new one");
 	} else if (companies == null) {
@@ -83,6 +83,10 @@ public class User {
 					  id, company.getSymbol(), company.getExchange()));
 	}
 	companies.remove(company);
+  }
+
+  public boolean isAbleToAddCompany() {
+	return curSubscribes < maxSubscribes;
   }
 
   @Override
