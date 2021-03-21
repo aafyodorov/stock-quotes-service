@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Map;
 
 /**
@@ -30,12 +32,14 @@ import java.util.Map;
 public class Company {
 
   @Id
+  @Size(min = 1, max = 10, message = "Symbol field length must be between 1 and 10 characters")
   private String symbol;
 
   @Column(name = "company_name")
   private String companyName;
 
   @Id
+  @Size(min = 1, max = 10, message = "Exchange length must be less than 10 and greater than 0")
   private String exchange;
 
   private String industry;

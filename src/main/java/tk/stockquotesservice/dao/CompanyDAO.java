@@ -20,4 +20,6 @@ public interface CompanyDAO {
   void updateCompany(Company company);
 
   void deleteCompany(CompanyPK pk);
+
+  void addOrUpdateCompany(Company company);
 }

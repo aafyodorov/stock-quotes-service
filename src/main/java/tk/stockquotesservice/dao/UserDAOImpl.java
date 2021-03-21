@@ -41,10 +41,6 @@ public class UserDAOImpl implements UserDAO {
   public void updateUser(User user) {
 	Session session = sessionFactory.getCurrentSession();
 
-	User tmp = session.get(User.class, user.getId());
-	if (tmp == null) {
-	  throw new NullPointerException();
-	}
 	session.update(user);
   }
 
@@ -54,5 +50,12 @@ public class UserDAOImpl implements UserDAO {
 
 	User user = session.get(User.class, id);
 	session.delete(Objects.requireNonNull(user));
+  }
+
+  @Override
+  public void addOrUpdateUser(User user) {
+	Session session = sessionFactory.getCurrentSession();
+
+	session.saveOrUpdate(user);
   }
 }

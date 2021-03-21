@@ -30,7 +30,7 @@ public class CompanyDAOImpl implements CompanyDAO {
   public void addCompany(Company company) {
 	Session session = sessionFactory.getCurrentSession();
 
-	session.save(company);
+	session.saveOrUpdate(company);
   }
 
   @Override
@@ -44,10 +44,6 @@ public class CompanyDAOImpl implements CompanyDAO {
   public void updateCompany(Company company) {
 	Session session = sessionFactory.getCurrentSession();
 
-	Company tmp = session.get(Company.class, new CompanyPK(company.getSymbol(), company.getExchange()));
-	if (tmp == null) {
-	  throw new NullPointerException();
-	}
 	session.update(company);
   }
 
@@ -67,4 +63,12 @@ public class CompanyDAOImpl implements CompanyDAO {
 	query.setParameter("sym", symbol);
 	return query.getResultList();
   }
+
+  @Override
+  public void addOrUpdateCompany(Company company) {
+	Session session = sessionFactory.getCurrentSession();
+
+	session.saveOrUpdate(company);
+  }
+
 }

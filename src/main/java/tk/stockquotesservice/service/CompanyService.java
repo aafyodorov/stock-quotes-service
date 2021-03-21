@@ -19,7 +19,7 @@ public interface CompanyService {
 
   void addCompanies(Iterable<Company> collection);
 
-  Company getCompany(CompanyPK companyPK);
+  Company getCompanyByPK(CompanyPK companyPK);
 
   void updateCompany(Company symbol);
 
@@ -28,4 +28,6 @@ public interface CompanyService {
   Map<User, Expectation> getAllSubscribedUsers(CompanyPK pk);
 
   List<Company> getCompaniesBySymbol(String symbol);
+
+  void addOrUpdateCompany(Company company);
 }

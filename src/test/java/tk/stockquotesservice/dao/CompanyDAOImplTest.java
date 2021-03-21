@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.stockquotesservice.StockQuotesServiceApplication;
 import tk.stockquotesservice.entity.Company;
 import tk.stockquotesservice.entity.CompanyPK;
+import tk.stockquotesservice.entity.User;
 
 import java.util.List;
 
@@ -96,12 +97,6 @@ class CompanyDAOImplTest {
   }
 
   @Test
-  public void updateCompany_NPE() {
-	Company company = new Company(new CompanyPK("CMP2", "EXC"));
-	assertThrows(NullPointerException.class, () -> companyDAO.updateCompany(company));
-  }
-
-  @Test
   public void deleteCompany() {
 	Session session = factory.getCurrentSession();
 
@@ -140,5 +135,31 @@ class CompanyDAOImplTest {
 
 	List<Company> companies = companyDAO.getCompaniesNySymbol("CMP");
 	assertEquals(2, companies.size());
+  }
+
+  @Test
+  public void addOrUpdateCompany_addNewCompany() {
+	Company company = new Company("CMP", "NAS");
+	Session session = factory.getCurrentSession();
+
+	companyDAO.addOrUpdateCompany(company);
+	assertEquals(1, session.createQuery("from Company").getResultList().size());
+  }
+
+  @Test
+  public void addOrUpdateCompany_addExistingCompany() {
+	Company company = new Company("CMP", "NAS");
+	Session session = factory.getCurrentSession();
+
+	session.createSQLQuery("insert into company(symbol, exchange) values " +
+			"('CMP', 'NAS'), ('CMP', 'EXC')").executeUpdate();
+
+	company.setExchange("NOT_NAS");
+	companyDAO.addCompany(company);
+	List<Company> validationCompList = session
+			.createQuery("from Company where symbol = 'CMP' and exchange = 'NOT_NAS'", Company.class)
+			.getResultList();
+	assertEquals(1, validationCompList.size());
+	assertEquals("NOT_NAS", validationCompList.get(0).getExchange());
   }
 }

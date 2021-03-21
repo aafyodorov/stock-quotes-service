@@ -2,6 +2,7 @@ package tk.stockquotesservice.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +19,8 @@ import tk.stockquotesservice.StockQuotesServiceApplication;
 import tk.stockquotesservice.entity.User;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @RunWith(SpringRunner.class)
@@ -56,7 +59,7 @@ class UserDAOImplTest {
 	userDAO.addUser(new User(3));
 
 	Query<User> query = session.createQuery("from User", User.class);
-	Assertions.assertEquals(3, query.getResultList().size());
+	assertEquals(3, query.getResultList().size());
   }
 
   @Test
@@ -67,14 +70,14 @@ class UserDAOImplTest {
 			"values (1, 1, 4), (2, 0, 3)").executeUpdate();
 
 	User user1 = userDAO.getUser(1);
-	Assertions.assertEquals(1, user1.getId());
-	Assertions.assertEquals(1, user1.getCurSubscribes());
-	Assertions.assertEquals(user1.getMaxSubscribes(), 4);
+	assertEquals(1, user1.getId());
+	assertEquals(1, user1.getCurSubscribes());
+	assertEquals(user1.getMaxSubscribes(), 4);
 
 	User user2 = userDAO.getUser(2);
-	Assertions.assertEquals(2, user2.getId());
-	Assertions.assertEquals(0, user2.getCurSubscribes());
-	Assertions.assertEquals(3, user2.getMaxSubscribes());
+	assertEquals(2, user2.getId());
+	assertEquals(0, user2.getCurSubscribes());
+	assertEquals(3, user2.getMaxSubscribes());
   }
 
   @Test
@@ -88,15 +91,8 @@ class UserDAOImplTest {
 	user.setMaxSubscribes(15);
 	userDAO.updateUser(user);
 	User userCheck = session.createQuery("from User where id = 1", User.class).getSingleResult();
-	Assertions.assertEquals(1, userCheck.getId());
-	Assertions.assertEquals(15, userCheck.getMaxSubscribes());
-  }
-
-  @Test
-  public void updateUser_NPE() {
-	User user = new User(999);
-
-	Assertions.assertThrows(NullPointerException.class, () -> userDAO.updateUser(user));
+	assertEquals(1, userCheck.getId());
+	assertEquals(15, userCheck.getMaxSubscribes());
   }
 
   @Test
@@ -108,7 +104,31 @@ class UserDAOImplTest {
 
 	userDAO.deleteUser(2L);
 	List<User> userList = session.createQuery("from User", User.class).getResultList();
-	Assertions.assertEquals(1, userList.size());
-	Assertions.assertEquals(1, userList.get(0).getId());
+	assertEquals(1, userList.size());
+	assertEquals(1, userList.get(0).getId());
+  }
+
+  @Test
+  public void addOrUpdateUser_addNewUser() {
+    User user = new User(1);
+	Session session = factory.getCurrentSession();
+
+    userDAO.addOrUpdateUser(user);
+    assertEquals(1, session.createQuery("from User ").getResultList().size());
+  }
+
+  @Test
+  public void addOrUpdateUser_updateExistingUser() {
+	User user = new User(1);
+	Session session = factory.getCurrentSession();
+
+	user.setMaxSubscribes(10);
+	session.createSQLQuery("insert into users(user_id, cur_subscribes, max_subscribes) " +
+			"values (1, 1, 4)").executeUpdate();
+
+	userDAO.addOrUpdateUser(user);
+	User validUser = session.createQuery("from User where id = 1", User.class).getSingleResult();
+	assertEquals(1, validUser.getId());
+	assertEquals(10, validUser.getMaxSubscribes());
   }
 }

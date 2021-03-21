@@ -2,6 +2,7 @@ package tk.stockquotesservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.stockquotesservice.dao.CompanyDAO;
 import tk.stockquotesservice.entity.Company;
@@ -18,23 +19,23 @@ import java.util.Map;
  */
 
 @Service
+@Transactional
 public class CompanyServiceImpl implements CompanyService {
 
   private CompanyDAO companyDAO;
 
   @Autowired
+  @Transactional(propagation = Propagation.NOT_SUPPORTED)
   public void setCompanyDAO(CompanyDAO companyDAO) {
 	this.companyDAO = companyDAO;
   }
 
   @Override
-  @Transactional
   public void addCompany(Company company) {
 	companyDAO.addCompany(company);
   }
 
   @Override
-  @Transactional
   public void addCompanies(Iterable<Company> collection) {
 	for (Company company : collection) {
 	  companyDAO.addCompany(company);
@@ -42,32 +43,33 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
-  @Transactional
-  public Company getCompany(CompanyPK companyPK) {
+  public Company getCompanyByPK(CompanyPK companyPK) {
 	return companyDAO.getCompanyPK(companyPK);
   }
 
   @Override
-  @Transactional
   public void updateCompany(Company company) {
 	companyDAO.updateCompany(company);
   }
 
   @Override
-  @Transactional
   public void deleteCompany(CompanyPK pk) {
 	companyDAO.deleteCompany(pk);
   }
 
   @Override
-  @Transactional
   public Map<User, Expectation> getAllSubscribedUsers(CompanyPK pk) {
 	return companyDAO.getCompanyPK(pk).getUsers();
   }
 
   @Override
-  @Transactional
   public List<Company> getCompaniesBySymbol(String symbol) {
-	return null;
+	return companyDAO.getCompaniesNySymbol(symbol);
   }
+
+  @Override
+  public void addOrUpdateCompany(Company company) {
+	companyDAO.addOrUpdateCompany(company);
+  }
+
 }

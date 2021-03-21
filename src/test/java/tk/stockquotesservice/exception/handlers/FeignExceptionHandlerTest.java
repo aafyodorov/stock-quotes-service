@@ -9,14 +9,14 @@ import org.springframework.web.context.request.WebRequest;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-class RestResponseEntityExceptionHandlerTest {
+class FeignExceptionHandlerTest {
 
   @Test
   public void handleFeignClientExceptions_FeignPatternNotMatch() {
 	FeignException ex = Mockito.mock(FeignException.class);
 	WebRequest request = Mockito.mock(WebRequest.class);
 	when(ex.getMessage()).thenReturn("Message not matching pattern");
-	RestResponseEntityExceptionHandler entityExceptionHandler = new RestResponseEntityExceptionHandler();
+	FeignExceptionHandler entityExceptionHandler = new FeignExceptionHandler();
 
 	ResponseEntity<Object> responseEntity = entityExceptionHandler.handleFeignClientExceptions(ex, request);
 	assertEquals(responseEntity.getStatusCodeValue(), 500);
@@ -30,7 +30,7 @@ class RestResponseEntityExceptionHandlerTest {
   public void handleFeignClientExceptions_CorrectPatternWithReason() {
 	FeignException ex = Mockito.mock(FeignException.class);
 	WebRequest request = Mockito.mock(WebRequest.class);
-	RestResponseEntityExceptionHandler entityExceptionHandler = new RestResponseEntityExceptionHandler();
+	FeignExceptionHandler entityExceptionHandler = new FeignExceptionHandler();
 
 	when(ex.getMessage())
 			.thenReturn("[404 Not Found] during [GET] to [https://www.correct-uri] " +
@@ -48,7 +48,7 @@ class RestResponseEntityExceptionHandlerTest {
   public void handleFeignClientExceptions_CorrectPatternWithoutReason() {
 	FeignException ex = Mockito.mock(FeignException.class);
 	WebRequest request = Mockito.mock(WebRequest.class);
-	RestResponseEntityExceptionHandler entityExceptionHandler = new RestResponseEntityExceptionHandler();
+	FeignExceptionHandler entityExceptionHandler = new FeignExceptionHandler();
 
 	when(ex.getMessage())
 			.thenReturn("[404] during [GET] to [https://www.correct-uri] " +

@@ -22,9 +22,9 @@ import java.util.regex.Pattern;
  */
 
 @ControllerAdvice
-public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class FeignExceptionHandler extends ResponseEntityExceptionHandler {
 
-  Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
+  Logger logger = LoggerFactory.getLogger(FeignExceptionHandler.class);
 
   @ExceptionHandler(value = {FeignException.class})
   public ResponseEntity<Object> handleFeignClientExceptions(FeignException ex, WebRequest request) {
@@ -49,7 +49,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	  responseBody.put("message", messageMatcher.group(5));
 	} else {
 	  logger.error("In [{}.class] Feign message pattern doesn't match the exception message.",
-			  RestResponseEntityExceptionHandler.class.getName());
+			  FeignExceptionHandler.class.getName());
 	  responseBody.put("status", 500);
 	  responseBody.put("message", "Error when requesting IEXCloud.");
 	  status = 500;

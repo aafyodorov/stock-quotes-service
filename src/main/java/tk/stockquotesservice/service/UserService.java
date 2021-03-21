@@ -20,4 +20,6 @@ public interface UserService {
   void deleteUser(int id);
 
   void addStockToWatchList(int userId, Company company, double expPrice);
+
+  void addOrUpdateUser(User user);
 }
