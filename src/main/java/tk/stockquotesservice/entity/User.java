@@ -28,7 +28,7 @@ public class User {
 
   @ElementCollection
   @CollectionTable(name = "expectation", joinColumns = @JoinColumn(name = "user_id"))
-  @MapKeyJoinColumns(value = {@MapKeyJoinColumn(name = "exchange"), @MapKeyJoinColumn(name = "symbol")})
+  @MapKeyJoinColumn(name = "symbol")
   @Column(name = "exp_price")
   private Map<Company, Expectation> companies;
 

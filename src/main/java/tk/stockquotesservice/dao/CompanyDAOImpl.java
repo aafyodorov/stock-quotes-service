@@ -2,11 +2,9 @@ package tk.stockquotesservice.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import tk.stockquotesservice.entity.Company;
-import tk.stockquotesservice.entity.CompanyPK;
 
 import java.util.Objects;
 
@@ -33,10 +31,10 @@ public class CompanyDAOImpl implements CompanyDAO {
   }
 
   @Override
-  public Company getCompanyPK(CompanyPK pk) {
+  public Company getCompanyBySymbol(String symbol) {
 	Session session = sessionFactory.getCurrentSession();
 
-	return session.get(Company.class, pk);
+	return session.get(Company.class, symbol);
   }
 
   @Override
@@ -47,20 +45,11 @@ public class CompanyDAOImpl implements CompanyDAO {
   }
 
   @Override
-  public void deleteCompany(CompanyPK pk) {
+  public void deleteCompanyBySymbol(String symbol) {
 	Session session = sessionFactory.getCurrentSession();
 
-	Company user = session.get(Company.class, pk);
+	Company user = session.get(Company.class, symbol);
 	session.delete(Objects.requireNonNull(user));
-  }
-
-  @Override
-  public Company getCompanyBySymbol(String symbol) {
-	Session session = sessionFactory.getCurrentSession();
-
-	Query<Company> query = session.createQuery("from Company c where c.symbol=:sym", Company.class);
-	query.setParameter("sym", symbol);
-	return query.getSingleResult();
   }
 
   @Override

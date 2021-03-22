@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import tk.stockquotesservice.StockQuotesServiceApplication;
 import tk.stockquotesservice.entity.Company;
-import tk.stockquotesservice.entity.CompanyPK;
 
 import java.util.List;
 
@@ -71,8 +70,8 @@ class CompanyDAOImplTest {
 	session.createSQLQuery("insert into company(symbol, exchange) values " +
 			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
 
-	Company company1 = companyDAO.getCompanyPK(new CompanyPK("CMP", "NAS"));
-	Company company2 = companyDAO.getCompanyPK(new CompanyPK("CMP2", "EXC"));
+	Company company1 = companyDAO.getCompanyBySymbol("CMP");
+	Company company2 = companyDAO.getCompanyBySymbol("CMP2");
 	assertEquals("CMP", company1.getSymbol());
 	assertEquals("NAS", company1.getExchange());
 	assertEquals("CMP2", company2.getSymbol());
@@ -86,7 +85,7 @@ class CompanyDAOImplTest {
 	session.createSQLQuery("insert into company(symbol, exchange) values " +
 			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
 
-	Company company = companyDAO.getCompanyPK(new CompanyPK("CMP2", "EXC"));
+	Company company = companyDAO.getCompanyBySymbol("CMP2");
 	company.setCompanyName("Test name");
 	companyDAO.updateCompany(company);
 	Company companyCheck = session
@@ -101,7 +100,7 @@ class CompanyDAOImplTest {
 
 	session.createSQLQuery("insert into company(symbol, exchange) values " +
 			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
-	companyDAO.deleteCompany(new CompanyPK("CMP2", "EXC"));
+	companyDAO.deleteCompanyBySymbol("CMP2");
 	List<Company> companies = session.createQuery("from Company", Company.class).getResultList();
 	assertEquals(1, companies.size());
 	assertEquals("NAS", companies.get(0).getExchange());
@@ -133,7 +132,7 @@ class CompanyDAOImplTest {
 	Session session = factory.getCurrentSession();
 
 	session.createSQLQuery("insert into company(symbol, exchange) values " +
-			"('CMP', 'NAS'), ('CMP', 'EXC')").executeUpdate();
+			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
 
 	company.setExchange("NOT_NAS");
 	companyDAO.addCompany(company);

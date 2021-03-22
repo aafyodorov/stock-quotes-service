@@ -3,19 +3,16 @@ package tk.stockquotesservice.controllers;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import tk.stockquotesservice.entity.Company;
-import tk.stockquotesservice.entity.CompanyPK;
 import tk.stockquotesservice.entity.User;
 import tk.stockquotesservice.service.CompanyService;
 import tk.stockquotesservice.service.UserService;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -46,7 +43,8 @@ public class ObserverController {
 														@RequestParam String symbol,
 														@RequestParam String expPrice) {
 
-	User targetUser = Objects.requireNonNullElse(userService.getUser(userId), new User(userId));;
+	User targetUser = Objects.requireNonNullElse(userService.getUser(userId), new User(userId));
+	;
 	Company company = companyService.getCompanyBySymbolIfNotFoundGetThemFromIEX(symbol);
 
 	return null;

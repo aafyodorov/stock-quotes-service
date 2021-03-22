@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 	  user = new User(userId);
 	  userDAO.addUser(user);
 	}
-	if (companyDAO.getCompanyPK(company.getPk()) == null) {
+	if (companyDAO.getCompanyBySymbol(company.getSymbol()) == null) {
 	  companyDAO.addCompany(company);
 	}
 	user.addCompanyToWatchList(company, expPrice);
@@ -74,6 +74,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void addOrUpdateUser(User user) {
-    userDAO.addOrUpdateUser(user);
+	userDAO.addOrUpdateUser(user);
   }
 }

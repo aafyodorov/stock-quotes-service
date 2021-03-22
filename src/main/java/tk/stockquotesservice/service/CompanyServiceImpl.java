@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.stockquotesservice.dao.CompanyDAO;
 import tk.stockquotesservice.entity.Company;
-import tk.stockquotesservice.entity.CompanyPK;
 import tk.stockquotesservice.entity.Expectation;
 import tk.stockquotesservice.entity.User;
 import tk.stockquotesservice.externalServicesClients.IEXClient;
@@ -48,15 +47,15 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
+  public Company getCompanyBySymbol(String symbol) {
+	return companyDAO.getCompanyBySymbol(symbol);
+  }
+
+  @Override
   public void addCompanies(Iterable<Company> collection) {
 	for (Company company : collection) {
 	  companyDAO.addCompany(company);
 	}
-  }
-
-  @Override
-  public Company getCompanyByPK(CompanyPK companyPK) {
-	return companyDAO.getCompanyPK(companyPK);
   }
 
   @Override
@@ -65,13 +64,13 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
-  public void deleteCompany(CompanyPK pk) {
-	companyDAO.deleteCompany(pk);
+  public void deleteCompanyBySymbol(String symbol) {
+	companyDAO.deleteCompanyBySymbol(symbol);
   }
 
   @Override
-  public Map<User, Expectation> getAllSubscribedUsers(CompanyPK pk) {
-	return companyDAO.getCompanyPK(pk).getUsers();
+  public Map<User, Expectation> getAllSubscribedUsers(String symbol) {
+	return companyDAO.getCompanyBySymbol(symbol).getUsers();
   }
 
   @Override
@@ -79,13 +78,6 @@ public class CompanyServiceImpl implements CompanyService {
 	return Objects.requireNonNullElse(
 			companyDAO.getCompanyBySymbol(symbol),
 			iexClient.getCompany(symbol, iexAppID));
-  }
-
-  @Override
-  public Company getCompanyByPKIfNotFoundGetThemFromIEX(CompanyPK companyPK) {
-	return Objects.requireNonNullElse(
-			companyDAO.getCompanyPK(companyPK),
-			iexClient.getCompany(companyPK.getSymbol(), iexAppID));
   }
 
   @Override

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Map;
 
@@ -16,7 +15,6 @@ import java.util.Map;
 
 @Entity
 @Table(name = "company")
-@IdClass(CompanyPK.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
 		"symbol",
@@ -38,7 +36,6 @@ public class Company {
   @Column(name = "company_name")
   private String companyName;
 
-  @Id
   @Size(min = 1, max = 10, message = "Exchange length must be less than 10 and greater than 0")
   private String exchange;
 
@@ -59,31 +56,18 @@ public class Company {
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(
 		  name = "expectation",
-		  joinColumns = {
-				  @JoinColumn(name = "symbol", referencedColumnName = "symbol"),
-				  @JoinColumn(name = "exchange", referencedColumnName = "exchange")})
+		  joinColumns = {@JoinColumn(name = "symbol", referencedColumnName = "symbol")})
   @MapKeyJoinColumn(name = "user_id")
   @Column(name = "exp_price")
   @JsonIgnore
   private Map<User, Expectation> users;
 
-  @Transient
-  @JsonIgnore
-  private CompanyPK pk;
-
   public Company() {
-  }
-
-  public Company(CompanyPK companyPK) {
-	this.pk = companyPK;
-	symbol = companyPK.getSymbol();
-	exchange = companyPK.getExchange();
   }
 
   public Company(String symbol, String exchange) {
 	this.symbol = symbol;
 	this.exchange = exchange;
-	this.pk = new CompanyPK(symbol, exchange);
   }
 
   public String getSymbol() {
@@ -158,14 +142,6 @@ public class Company {
 	this.country = country;
   }
 
-  public CompanyPK getPk() {
-	return pk;
-  }
-
-  public void setPk(CompanyPK pk) {
-	this.pk = pk;
-  }
-
   public void setUsers(Map<User, Expectation> users) {
 	this.users = users;
   }
@@ -195,12 +171,12 @@ public class Company {
   @Override
   public String toString() {
 	return String.format("""
-			Company name:	%s (%s)
-			Country:		%s
-			Industry:		%s
-			Sector:			%s
-			Web site:		%s
-			""", companyName, symbol,
+					Company name:	%s (%s)
+					Country:		%s
+					Industry:		%s
+					Sector:			%s
+					Web site:		%s
+					""", companyName, symbol,
 			country,
 			industry,
 			sector,

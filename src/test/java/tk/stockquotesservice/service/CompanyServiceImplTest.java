@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.stockquotesservice.StockQuotesServiceApplication;
 import tk.stockquotesservice.dao.CompanyDAO;
 import tk.stockquotesservice.entity.Company;
-import tk.stockquotesservice.entity.CompanyPK;
 import tk.stockquotesservice.entity.Expectation;
 import tk.stockquotesservice.entity.User;
 import tk.stockquotesservice.externalServicesClients.IEXClient;
@@ -44,21 +43,20 @@ class CompanyServiceImplTest {
 
   @Test
   public void getAllSubscribedUsers() {
-	CompanyPK companyPK = new CompanyPK("AAPL", "NAS");
-	Company company1 = new Company(companyPK);
+	Company company = new Company("CMP", "NAS");
 	User user1 = new User(1);
 	User user2 = new User(2);
 	User user3 = new User(3);
 
-	companyService.addCompany(company1);
-	user1.addCompanyToWatchList(company1, 123.22);
-	user2.addCompanyToWatchList(company1, 123.22);
-	user3.addCompanyToWatchList(company1, 123.22);
+	companyService.addCompany(company);
+	user1.addCompanyToWatchList(company, 123.22);
+	user2.addCompanyToWatchList(company, 123.22);
+	user3.addCompanyToWatchList(company, 123.22);
 	userService.addUser(user1);
 	userService.addUser(user2);
 	userService.addUser(user3);
 
-	Map<User, Expectation> map = companyService.getAllSubscribedUsers(companyPK);
+	Map<User, Expectation> map = companyService.getAllSubscribedUsers(company.getSymbol());
 	assertEquals(3, map.size());
 	assertTrue(map.containsKey(user1));
 	assertTrue(map.containsKey(user2));
