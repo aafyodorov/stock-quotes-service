@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.stockquotesservice.StockQuotesServiceApplication;
 import tk.stockquotesservice.entity.Company;
 import tk.stockquotesservice.entity.CompanyPK;
-import tk.stockquotesservice.entity.User;
 
 import java.util.List;
 
@@ -109,32 +108,14 @@ class CompanyDAOImplTest {
   }
 
   @Test
-  public void getCompaniesBySymbol_getEmptyList() {
-	List<Company> companies = companyDAO.getCompaniesNySymbol("AAPL");
-	assertTrue(companies.isEmpty());
-  }
-
-  @Test
   public void getCompaniesBySymbol_getOneCompanyFromTwoCortegeTable_CortegesHasDiffSymbols() {
 	Session session = factory.getCurrentSession();
 
 	session.createSQLQuery("insert into company(symbol, exchange) values " +
 			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
 
-	List<Company> companies = companyDAO.getCompaniesNySymbol("CMP");
-	assertEquals(1, companies.size());
-  }
-
-
-  @Test
-  public void getCompaniesBySymbol_getOneCompanyFromTwoCortegeTable_CortegesHasSameSymbols() {
-	Session session = factory.getCurrentSession();
-
-	session.createSQLQuery("insert into company(symbol, exchange) values " +
-			"('CMP', 'NAS'), ('CMP', 'EXC')").executeUpdate();
-
-	List<Company> companies = companyDAO.getCompaniesNySymbol("CMP");
-	assertEquals(2, companies.size());
+	Company company = companyDAO.getCompanyBySymbol("CMP");
+	assertNotNull(company);
   }
 
   @Test

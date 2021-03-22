@@ -21,13 +21,15 @@ public interface CompanyService {
 
   Company getCompanyByPK(CompanyPK companyPK);
 
+  Company getCompanyByPKIfNotFoundGetThemFromIEX(CompanyPK companyPK);
+
   void updateCompany(Company symbol);
 
   void deleteCompany(CompanyPK pk);
 
   Map<User, Expectation> getAllSubscribedUsers(CompanyPK pk);
 
-  List<Company> getCompaniesBySymbol(String symbol);
+  Company getCompanyBySymbolIfNotFoundGetThemFromIEX(String symbol);
 
   void addOrUpdateCompany(Company company);
 }

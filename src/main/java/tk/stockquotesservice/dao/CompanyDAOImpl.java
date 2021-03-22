@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import tk.stockquotesservice.entity.Company;
 import tk.stockquotesservice.entity.CompanyPK;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -56,12 +55,12 @@ public class CompanyDAOImpl implements CompanyDAO {
   }
 
   @Override
-  public List<Company> getCompaniesNySymbol(String symbol) {
+  public Company getCompanyBySymbol(String symbol) {
 	Session session = sessionFactory.getCurrentSession();
 
 	Query<Company> query = session.createQuery("from Company c where c.symbol=:sym", Company.class);
 	query.setParameter("sym", symbol);
-	return query.getResultList();
+	return query.getSingleResult();
   }
 
   @Override
