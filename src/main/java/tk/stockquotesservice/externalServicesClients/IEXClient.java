@@ -20,5 +20,5 @@ public interface IEXClient {
 
   @GetMapping("${io.iexcloud.company}")
   Company getCompany(@PathVariable(value = "symbol") String symbol,
-					 @RequestParam(value = "appID") String appID);
+					 @RequestParam(value = "token") String appID);
 }

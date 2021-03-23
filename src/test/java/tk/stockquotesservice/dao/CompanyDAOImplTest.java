@@ -2,28 +2,30 @@ package tk.stockquotesservice.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Scope;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import tk.stockquotesservice.StockQuotesServiceApplication;
 import tk.stockquotesservice.entity.Company;
+import tk.stockquotesservice.entity.Exchange;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(
-		webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-		classes = StockQuotesServiceApplication.class
-)
+@SpringBootTest(classes = StockQuotesServiceApplication.class)
 @AutoConfigureMockMvc
 @TestPropertySource(locations = "classpath:test.properties")
 @Transactional
@@ -35,7 +37,28 @@ class CompanyDAOImplTest {
   @Autowired
   CompanyDAO companyDAO;
 
+  @Autowired
+  ExchangeDAO exchangeDAO;
+
+  int nasId;
+
+  int tseId;
+
   @BeforeEach
+  public void initExchange() {
+	Session session = factory.getCurrentSession();
+
+	session.createSQLQuery("insert into exchange(exchange_name) values" +
+			"('NASDAQ'), ('TSE')").executeUpdate();
+	nasId = exchangeDAO.getExchange("NASDAQ").getExchangeId();
+	tseId = exchangeDAO.getExchange("TSE").getExchangeId();
+	NativeQuery query = session.createNativeQuery("insert into company(symbol, exchange_id) values " +
+			"('CMP', ?1), ('CMP2', ?1)");
+	query.setParameter(1, nasId);
+	query.executeUpdate();
+  }
+
+  @AfterEach
   public void dropEach() {
 	Session session = factory.getCurrentSession();
 
@@ -43,6 +66,7 @@ class CompanyDAOImplTest {
 			delete from expectation;
 			delete from users;
 			delete from company;
+			delete from exchange;
 			""").executeUpdate();
   }
 
@@ -52,44 +76,37 @@ class CompanyDAOImplTest {
 
 	Company company1 = new Company();
 	company1.setSymbol("CMP1");
-	company1.setExchange("NAS");
-	Company company2 = new Company();
-	company2.setExchange("NAS2");
-	company2.setSymbol("CMP2");
 
 	companyDAO.addCompany(company1);
-	companyDAO.addCompany(company2);
 	Query<Company> query = session.createQuery("from Company", Company.class);
-	assertEquals(2, query.getResultList().size());
+	assertEquals(3, query.getResultList().size());
   }
 
   @Test
   public void getCompany() {
-	Session session = factory.getCurrentSession();
-
-	session.createSQLQuery("insert into company(symbol, exchange) values " +
-			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
+//	Session session = factory.getCurrentSession();
+//
+//	NativeQuery query = session.createNativeQuery("insert into company(symbol, exchange_id) values " +
+//			"('CMP', 1), ('CMP2', 1)");
 
 	Company company1 = companyDAO.getCompanyBySymbol("CMP");
 	Company company2 = companyDAO.getCompanyBySymbol("CMP2");
 	assertEquals("CMP", company1.getSymbol());
-	assertEquals("NAS", company1.getExchange());
 	assertEquals("CMP2", company2.getSymbol());
-	assertEquals("EXC", company2.getExchange());
   }
 
   @Test
   public void updateCompany() {
 	Session session = factory.getCurrentSession();
 
-	session.createSQLQuery("insert into company(symbol, exchange) values " +
-			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
+//	session.createSQLQuery("insert into company(symbol, exchange_id) values " +
+//			"('CMP', 1), ('CMP2', 1)").executeUpdate();
 
 	Company company = companyDAO.getCompanyBySymbol("CMP2");
 	company.setCompanyName("Test name");
 	companyDAO.updateCompany(company);
 	Company companyCheck = session
-			.createQuery("from Company where symbol = 'CMP2' and exchange = 'EXC'", Company.class)
+			.createQuery("from Company where symbol = 'CMP2'", Company.class)
 			.getSingleResult();
 	assertEquals("Test name", companyCheck.getCompanyName());
   }
@@ -98,20 +115,19 @@ class CompanyDAOImplTest {
   public void deleteCompany() {
 	Session session = factory.getCurrentSession();
 
-	session.createSQLQuery("insert into company(symbol, exchange) values " +
-			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
+//	session.createSQLQuery("insert into company(symbol, exchange_id) values " +
+//			"('CMP', 1), ('CMP2', 1)").executeUpdate();
 	companyDAO.deleteCompanyBySymbol("CMP2");
 	List<Company> companies = session.createQuery("from Company", Company.class).getResultList();
 	assertEquals(1, companies.size());
-	assertEquals("NAS", companies.get(0).getExchange());
   }
 
   @Test
   public void getCompaniesBySymbol_getOneCompanyFromTwoCortegeTable_CortegesHasDiffSymbols() {
 	Session session = factory.getCurrentSession();
 
-	session.createSQLQuery("insert into company(symbol, exchange) values " +
-			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
+//	session.createSQLQuery("insert into company(symbol, exchange_id) values " +
+//			"('CMP', 1), ('CMP2', 1)").executeUpdate();
 
 	Company company = companyDAO.getCompanyBySymbol("CMP");
 	assertNotNull(company);
@@ -119,27 +135,26 @@ class CompanyDAOImplTest {
 
   @Test
   public void addOrUpdateCompany_addNewCompany() {
-	Company company = new Company("CMP", "NAS");
+	Company company = new Company("CMP1");
 	Session session = factory.getCurrentSession();
 
 	companyDAO.addOrUpdateCompany(company);
-	assertEquals(1, session.createQuery("from Company").getResultList().size());
+	assertEquals(3, session.createQuery("from Company").getResultList().size());
   }
 
   @Test
-  public void addOrUpdateCompany_addExistingCompany() {
-	Company company = new Company("CMP", "NAS");
+  public void addOrUpdateCompany_updateExistingCompany() {
+	Company company = new Company("CMP");
 	Session session = factory.getCurrentSession();
 
-	session.createSQLQuery("insert into company(symbol, exchange) values " +
-			"('CMP', 'NAS'), ('CMP2', 'EXC')").executeUpdate();
-
-	company.setExchange("NOT_NAS");
+	Query<Exchange> query = session.createQuery("from Exchange where id=:id", Exchange.class);
+	query.setParameter("id", tseId);
+	Exchange exchange = query.getSingleResult();
+	company.setExchange(exchange);
 	companyDAO.addCompany(company);
-	List<Company> validationCompList = session
-			.createQuery("from Company where symbol = 'CMP' and exchange = 'NOT_NAS'", Company.class)
-			.getResultList();
-	assertEquals(1, validationCompList.size());
-	assertEquals("NOT_NAS", validationCompList.get(0).getExchange());
+	Company updatedCompany = session
+			.createQuery("from Company where symbol = 'CMP'", Company.class)
+			.getSingleResult();
+	assertEquals("TSE", updatedCompany.getExchange().getExchangeName());
   }
 }

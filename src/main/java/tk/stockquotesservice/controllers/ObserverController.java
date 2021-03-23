@@ -1,6 +1,8 @@
 package tk.stockquotesservice.controllers;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ import java.util.Objects;
 @RequestMapping("/observer")
 public class ObserverController {
 
+  private static final Logger logger = LoggerFactory.getLogger(ObserverController.class);
+
   private UserService userService;
 
   private CompanyService companyService;
@@ -38,15 +42,24 @@ public class ObserverController {
 	this.companyService = companyService;
   }
 
+  //TODO Add symbol verification before trying to get it		https://iextrading.com/trading/eligible-symbols/
   @PostMapping(value = "/add", produces = {MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<JSONObject> addQuoteToWatchList(@RequestParam long userId,
 														@RequestParam String symbol,
-														@RequestParam String expPrice) {
-
-	User targetUser = Objects.requireNonNullElse(userService.getUser(userId), new User(userId));
-	;
+														@RequestParam double expPrice) {
+	User targetUser;
 	Company company = companyService.getCompanyBySymbolIfNotFoundGetThemFromIEX(symbol);
+	System.out.println(company);
 
+	try {
+	  targetUser = userService.getUser(userId);
+	} catch (NullPointerException ex) {
+	  targetUser = new User(userId);
+	  logger.info("Creating new user: " + userId);
+	}
+	companyService.addOrUpdateCompany(company);
+	targetUser.addCompanyToWatchList(company, expPrice);
+	userService.addOrUpdateUser(targetUser);
 	return null;
   }
 }

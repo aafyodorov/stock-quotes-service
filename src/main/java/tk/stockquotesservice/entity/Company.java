@@ -36,8 +36,11 @@ public class Company {
   @Column(name = "company_name")
   private String companyName;
 
-  @Size(min = 1, max = 10, message = "Exchange length must be less than 10 and greater than 0")
-  private String exchange;
+  @ManyToOne(cascade = {
+		  CascadeType.PERSIST, CascadeType.DETACH,
+		  CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinColumn(name = "exchange_id")
+  private Exchange exchange;
 
   private String industry;
 
@@ -46,7 +49,7 @@ public class Company {
   @Column(name = "security_name")
   private String securityName;
 
-  @Column(name = "issuetype")
+  @Column(name = "issue_type")
   private String issueType;
 
   private String sector;
@@ -65,9 +68,8 @@ public class Company {
   public Company() {
   }
 
-  public Company(String symbol, String exchange) {
+  public Company(String symbol) {
 	this.symbol = symbol;
-	this.exchange = exchange;
   }
 
   public String getSymbol() {
@@ -86,11 +88,11 @@ public class Company {
 	this.companyName = companyName;
   }
 
-  public String getExchange() {
+  public Exchange getExchange() {
 	return exchange;
   }
 
-  public void setExchange(String exchange) {
+  public void setExchange(Exchange exchange) {
 	this.exchange = exchange;
   }
 
@@ -172,11 +174,13 @@ public class Company {
   public String toString() {
 	return String.format("""
 					Company name:	%s (%s)
+					Exchange:		%s
 					Country:		%s
 					Industry:		%s
 					Sector:			%s
 					Web site:		%s
 					""", companyName, symbol,
+			exchange.getExchangeName(),
 			country,
 			industry,
 			sector,
