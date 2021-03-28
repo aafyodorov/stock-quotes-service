@@ -28,8 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 		webEnvironment = SpringBootTest.WebEnvironment.MOCK,
 		classes = StockQuotesServiceApplication.class)
 @AutoConfigureMockMvc
-@TestPropertySource(
-		locations = "classpath:test.properties")
+@TestPropertySource(locations = "classpath:test.properties")
 @Transactional
 class UserDAOImplTest {
 

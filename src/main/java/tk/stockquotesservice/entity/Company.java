@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ public class Company {
   @Column(name = "company_name")
   private String companyName;
 
+  @NotNull
   @ManyToOne(cascade = {
 		  CascadeType.PERSIST, CascadeType.DETACH,
 		  CascadeType.MERGE, CascadeType.REFRESH})
@@ -70,6 +72,11 @@ public class Company {
 
   public Company(String symbol) {
 	this.symbol = symbol;
+  }
+
+  public Company(String symbol, @NotNull Exchange exchange) {
+	this.symbol = symbol;
+	this.exchange = exchange;
   }
 
   public String getSymbol() {
